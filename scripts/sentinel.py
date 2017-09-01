@@ -7,7 +7,7 @@ from collections import OrderedDict
 import ads
 
 from astrocats.catalog.utils import tprint, tq
-from astrocats.supernovae.scripts.repos import repo_file_list
+from astrocats.kilonovae.scripts.repos import repo_file_list
 
 sentinel = OrderedDict()
 

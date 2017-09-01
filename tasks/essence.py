@@ -28,7 +28,7 @@ def do_essence_photo(catalog):
             skipinitialspace=True))
     for row in pbar(data[1:], task_str):
         etype = row[2]
-        if etype.upper().replace('?', '') in catalog.nonsnetypes:
+        if etype.upper().replace('?', '') in catalog.nonknetypes:
             continue
         ess_name = 'ESSENCE ' + row[0]
         name, source = catalog.new_entry(

@@ -5,8 +5,8 @@ from collections import OrderedDict
 
 from tqdm import tqdm
 
-from astrocats.supernovae.scripts.events import get_event_text
-from astrocats.supernovae.scripts.repos import repo_file_list
+from astrocats.kilonovae.scripts.events import get_event_text
+from astrocats.kilonovae.scripts.repos import repo_file_list
 
 errata = []
 

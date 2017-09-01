@@ -1,9 +1,9 @@
-"""Entry point for the Supernova Catalog
+"""Entry point for the Kilonova Catalog
 """
 
 
 def main(args, clargs, log):
-    from .supernovacatalog import KilonovaCatalog
+    from .kilonovacatalog import KilonovaCatalog
     from astrocats.catalog.argshandler import ArgsHandler
 
     # Create an `ArgsHandler` instance with the appropriate argparse machinery

@@ -536,14 +536,14 @@ def do_ascii(catalog):
         if any(x in row['Notes'].lower() for x in ['artifact']):
             continue
         ctypes = row['Type'].split('/')
-        nonsne = False
+        nonkne = False
         for ct in ctypes:
-            if ct.replace('?', '') in catalog.nonsnetypes:
-                nonsne = True
+            if ct.replace('?', '') in catalog.nonknetypes:
+                nonkne = True
             else:
-                nonsne = False
+                nonkne = False
                 break
-        if nonsne:
+        if nonkne:
             continue
         name, source = catalog.new_entry(
             row['SNHunt des.'],

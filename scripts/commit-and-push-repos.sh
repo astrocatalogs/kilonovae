@@ -14,12 +14,12 @@ fi
 git commit -a -m "$1"
 git push
 repos=($(awk -F= '{print $1}' rep-folders.txt))
-repos+=('sne-internal')
-repos+=('sne-external')
-repos+=('sne-external-radio')
-repos+=('sne-external-xray')
-repos+=('sne-external-spectra')
-repos+=('sne-external-WISEREP')
+repos+=('kne-internal')
+repos+=('kne-external')
+repos+=('kne-external-radio')
+repos+=('kne-external-xray')
+repos+=('kne-external-spectra')
+repos+=('kne-external-WISEREP')
 echo ${repos[*]}
 cd ..
 for repo in ${repos[@]}; do

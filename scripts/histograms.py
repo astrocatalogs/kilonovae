@@ -19,9 +19,9 @@ with open(outdir + 'catalog.min.json', 'r') as f:
     meta = json.loads(filetext, object_pairs_hook=OrderedDict)
 with open('astrocats/supernovae/input/type-synonyms.json', 'r') as f:
     typereps = json.loads(f.read(), object_pairs_hook=OrderedDict)
-with open('astrocats/supernovae/input/non-sne-types.json', 'r') as f:
-    nonsnetypes = json.loads(f.read(), object_pairs_hook=OrderedDict)
-    nonsnetypes = [x.upper() for x in nonsnetypes]
+with open('astrocats/supernovae/input/non-kne-types.json', 'r') as f:
+    nonknetypes = json.loads(f.read(), object_pairs_hook=OrderedDict)
+    nonknetypes = [x.upper() for x in nonknetypes]
 
 sntypes = []
 
@@ -35,7 +35,7 @@ for event in meta:
                     break
             if not ctv:
                 continue
-            if (ctv not in sntypes and ctv.upper() not in nonsnetypes and
+            if (ctv not in sntypes and ctv.upper() not in nonknetypes and
                     ctv not in ['nIa', 'Candidate'] and
                     not is_number(ctv) and '\\' not in ctv):
                 # temporarily ignoring bad types from import
@@ -49,7 +49,7 @@ tt = [
 ]
 hover = HoverTool(tooltips=tt, line_policy='interp')
 p = Figure(x_range=[0., 100.], y_range=[0., 1.],
-           title='Supernova Host Offsets',
+           title='Kilonova Host Offsets',
            x_axis_label='Offset (kpc)', y_axis_label='CDF',
            plot_width=980, plot_height=500)
 p.add_tools(hover)

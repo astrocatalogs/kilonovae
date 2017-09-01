@@ -58,12 +58,12 @@ for a in soup.findAll('a'):
     #                    name = 'SN' + names[0].split(':')[1].strip()
     #                bands = bandsoup.body.findAll(text=re.compile("^Band"))
     #                band = bands[0].split(':')[1].strip()
-    #                print ('../sne-external/SUSPECT/suspect-' + name + '-' + str(ei).zfill(2) + '-' + band + '.html')
-    #                with open('../sne-external/SUSPECT/suspect-' + name + '-' + str(ei).zfill(2) + '-' + band + '.html', 'w') as f:
+    #                print ('../kne-external/SUSPECT/suspect-' + name + '-' + str(ei).zfill(2) + '-' + band + '.html')
+    #                with open('../kne-external/SUSPECT/suspect-' + name + '-' + str(ei).zfill(2) + '-' + band + '.html', 'w') as f:
     #                    f.write(bandtxt)
 
 print(sourcedict)
 jsonstring = json.dumps(sourcedict, indent='\t',
                         separators=(',', ':'), ensure_ascii=False)
-with open('astrocats/supernovae/input/sne-external-spectra/Suspect/sources.json', 'w') as f:
+with open('astrocats/supernovae/input/kne-external-spectra/Suspect/sources.json', 'w') as f:
     f.write(jsonstring)

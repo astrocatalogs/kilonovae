@@ -5,7 +5,7 @@
         "update": false,
         "module": "kilonovae.tasks.general_data",
         "function": "do_internal",
-        "repo": "input/sne-internal",
+        "repo": "input/kne-internal",
         "priority": 1
     },
     "radio": {

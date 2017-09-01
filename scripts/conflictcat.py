@@ -9,7 +9,7 @@ from astropy.coordinates import SkyCoord as coord
 from tqdm import tqdm
 
 from astrocats.catalog.utils import round_sig
-from astrocats.supernovae.scripts.repos import repo_file_list
+from astrocats.kilonovae.scripts.repos import repo_file_list
 
 from ...catalog.utils import get_entry_filename
 
@@ -107,7 +107,7 @@ for fcnt, eventfile in enumerate(tqdm(sorted(files, key=lambda s: s.lower()))):
                         [x['idtype'] for x in newsources]), 'id': ','.join([x['id'] for x in newsources])})
 
     edit = True if os.path.isfile(
-        '../sne-internal/' + get_entry_filename(item['name']) + '.json') else False
+        '../kne-internal/' + get_entry_filename(item['name']) + '.json') else False
 
     if ras and decs and item['name'] and item['name'] not in ['SN2002fz']:
         oralen = len(ras)

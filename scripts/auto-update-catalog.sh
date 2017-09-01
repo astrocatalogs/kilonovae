@@ -4,7 +4,7 @@ set -e
 PATH=/root/miniconda3/bin:/opt/local/bin:/usr/local/bin:$PATH ; export PATH
 LD_LIBRARY_PATH=/usr/local/lib:/opt/local/lib ; export LD_LIBRARY_PATH
 
-cd /var/www/html/sne/astrocats
+cd /var/www/html/kne/astrocats
 python -m astrocats supernovae git-pull
 python -m astrocats supernovae import
 SNEUPDATE=$?

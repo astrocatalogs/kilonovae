@@ -6,13 +6,7 @@
         "kne-boneyard"
     ],
     "external":[
-        "kne-external",
-        "kne-external-radio",
-        "kne-external-WISEREP",
-        "kne-external-xray",
-        "kne-external-spectra",
-        "kne-external-fits-spectra",
-        "kne-external-models"
+        "kne-external"
     ],
     "private":[
     ],

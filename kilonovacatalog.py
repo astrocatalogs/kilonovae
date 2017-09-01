@@ -10,7 +10,7 @@ from astrocats.catalog.catalog import Catalog
 from astrocats.catalog.quantity import QUANTITY
 from astrocats.catalog.utils import read_json_arr, read_json_dict
 
-from .supernova import KILONOVA, Kilonova
+from .kilonova import KILONOVA, Kilonova
 from .utils import name_clean
 
 
@@ -33,9 +33,9 @@ class KilonovaCatalog(Catalog):
             self.URL_REDIRECTS = os.path.join(
                 self.PATH_INPUT, 'url-redirects.json')
             self.NON_SNE_TYPES = os.path.join(
-                self.PATH_INPUT, 'non-sne-types.json')
+                self.PATH_INPUT, 'non-kne-types.json')
             self.NON_SNE_PREFIXES = os.path.join(
-                self.PATH_INPUT, 'non-sne-prefixes.json')
+                self.PATH_INPUT, 'non-kne-prefixes.json')
             self.BIBERRORS = os.path.join(self.PATH_INPUT, 'biberrors.json')
             self.ATELS = os.path.join(self.PATH_INPUT, 'atels.json')
             self.CBETS = os.path.join(self.PATH_INPUT, 'cbets.json')
@@ -81,7 +81,7 @@ class KilonovaCatalog(Catalog):
         (bury_entry, save_entry) = super(KilonovaCatalog, self).should_bury(name)
 
         ct_val = None
-        if name.startswith(tuple(self.nonsneprefixes_dict)):
+        if name.startswith(tuple(self.nonkneprefixes_dict)):
             self.log.debug(
                 "Killing '{}', non-SNe prefix.".format(name))
             save_entry = False
@@ -89,7 +89,7 @@ class KilonovaCatalog(Catalog):
             if KILONOVA.CLAIMED_TYPE in self.entries[name]:
                 for ct in self.entries[name][KILONOVA.CLAIMED_TYPE]:
                     up_val = ct[QUANTITY.VALUE].upper().replace('?', '')
-                    up_types = [x.upper() for x in self.nonsnetypes]
+                    up_types = [x.upper() for x in self.nonknetypes]
                     if up_val not in up_types and up_val != 'CANDIDATE':
                         bury_entry = False
                         save_entry = True
@@ -142,9 +142,9 @@ class KilonovaCatalog(Catalog):
         self.url_redirs = read_json_dict(self.PATHS.URL_REDIRECTS)
         self.type_syns = read_json_dict(self.PATHS.TYPE_SYNONYMS)
         # Create/Load auxiliary arrays
-        self.nonsneprefixes_dict = read_json_arr(
+        self.nonkneprefixes_dict = read_json_arr(
             self.PATHS.NON_SNE_PREFIXES)
-        self.nonsnetypes = read_json_arr(self.PATHS.NON_SNE_TYPES)
+        self.nonknetypes = read_json_arr(self.PATHS.NON_SNE_TYPES)
         return
 
     def save_caches(self):

@@ -12,7 +12,7 @@ from astrocats.catalog.utils import jd_to_mjd, pbar_strings
 from astropy.io import fits
 from astropy.time import Time as astrotime
 
-from ..kilonova import KILONOVA, Supernova
+from ..kilonova import KILONOVA, Kilonova
 
 
 def do_external_radio(catalog):
@@ -218,7 +218,7 @@ def do_internal(catalog):
     catalog.log.debug("found {} files matching '{}'".format(
         len(files), path_pattern))
     for datafile in pbar_strings(files, task_str):
-        new_event = Supernova.init_from_file(
+        new_event = Kilonova.init_from_file(
             catalog, path=datafile, clean=True)
         catalog.entries.update({new_event[KILONOVA.NAME]: new_event})
 

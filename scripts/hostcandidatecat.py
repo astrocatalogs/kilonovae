@@ -10,7 +10,7 @@ from astropy.coordinates import SkyCoord as coord
 from astroquery.simbad import Simbad
 from tqdm import tqdm
 
-from astrocats.supernovae.scripts.repos import repo_file_list
+from astrocats.kilonovae.scripts.repos import repo_file_list
 
 from ...catalog.utils import get_entry_filename
 

@@ -14,7 +14,7 @@ from astropy import units as un
 from astropy.coordinates import SkyCoord as coord, match_coordinates_sky
 from tqdm import tqdm
 
-from astrocats.supernovae.scripts.repos import repo_file_list
+from astrocats.kilonovae.scripts.repos import repo_file_list
 
 from ...catalog.utils import get_entry_filename, is_number
 
@@ -206,7 +206,7 @@ for item1 in tqdm(cxccatalog):
             continue
 
         edit = True if os.path.isfile(
-            '../sne-internal/' + get_entry_filename(name1) +
+            '../kne-internal/' + get_entry_filename(name1) +
             '.json') else False
 
         dupes.append(OrderedDict([('name1', name1),

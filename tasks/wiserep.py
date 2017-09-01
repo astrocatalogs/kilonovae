@@ -19,7 +19,7 @@ def do_wiserep_spectra(catalog):
     if not catalog.args.travis:
         from ..input.WISeWEBSpider.wisewebspider import spider
         try:
-            spider(update=True, daysago=7, path="/../../sne-external-WISEREP/")
+            spider(update=True, daysago=7, path="/../../kne-external-WISEREP/")
         except:
             catalog.log.warning(
                 'Spider errored, continuing without letting it complete.')

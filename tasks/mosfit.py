@@ -5,7 +5,7 @@ from glob import glob
 import dropbox
 
 from astrocats.catalog.utils import pbar
-from astrocats.supernovae.supernova import Supernova, KILONOVA
+from astrocats.kilonovae.kilonova import Kilonova, KILONOVA
 from astrocats.catalog.photometry import PHOTOMETRY
 
 
@@ -43,7 +43,7 @@ def do_mosfit(catalog):
             with open(fpath, 'wb') as f:
                 f.write(jtxt)
 
-        new_entry = Supernova.init_from_file(
+        new_entry = Kilonova.init_from_file(
             catalog, path=fpath, compare_to_existing=False, try_gzip=True,
             clean=False, merge=False)
 
@@ -61,7 +61,7 @@ def do_mosfit(catalog):
         old_entry = None
         if name in catalog.entries:
             if catalog.entries[name]._stub:
-                old_entry = Supernova.init_from_file(
+                old_entry = Kilonova.init_from_file(
                     catalog, name=name, compare_to_existing=False)
             else:
                 old_entry = catalog.entries[name]

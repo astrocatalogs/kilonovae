@@ -15,7 +15,7 @@ metaals = [[y['value'].upper() for y in x['alias']] for x in meta]
 
 names = []
 
-for folder in tqdm(glob('../input/sne-external-WISEREP/*')):
+for folder in tqdm(glob('../input/kne-external-WISEREP/*')):
     path = folder + '/README.json'
     name = folder.split('/')[-1]
     if os.path.isfile(path):
