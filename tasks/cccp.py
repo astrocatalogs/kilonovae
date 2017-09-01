@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from astrocats.catalog.utils import pbar, pbar_strings
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_cccp(catalog):
@@ -30,7 +30,7 @@ def do_cccp(catalog):
                     source = catalog.entries[name].add_source(
                         bibcode='2012ApJ...744...10K')
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.ALIAS, name, source)
+                        KILONOVA.ALIAS, name, source)
                 elif rr >= 5:
                     mjd = str(Decimal(row[0]) + 53000)
                     for bb, band in enumerate(cccpbands):
@@ -57,7 +57,7 @@ def do_cccp(catalog):
                       .add_source(name='CCCP',
                                   url=('https://webhome.weizmann.ac.il'
                                        '/home/iair/sc_cccp.html')))
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
 
             html2 = catalog.load_url(
                 'https://webhome.weizmann.ac.il/home/iair/' + link['href'],

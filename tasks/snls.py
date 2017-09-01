@@ -12,7 +12,7 @@ from astrocats.catalog.spectrum import SPECTRUM
 from astrocats.catalog.utils import (get_sig_digits, pbar, pbar_strings,
                                      pretty_num)
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_snls_photo(catalog):
@@ -31,7 +31,7 @@ def do_snls_photo(catalog):
         name = catalog.add_entry(name)
         source = catalog.entries[name].add_source(
             bibcode='2010A&A...523A...7G')
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         # Conversion comes from SNLS-Readme
         # NOTE: Datafiles avail for download suggest diff zeropoints than 30,
         # but README states mags should be calculated assuming 30. Need to
@@ -82,9 +82,9 @@ def do_snls_spectra(catalog):
         name = catalog.add_entry(name)
         source = catalog.entries[name].add_source(
             bibcode='2009A&A...507...85B')
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
 
-        catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE,
+        catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE,
                                            '20' + fileparts[1][:2], source)
 
         f = open(fname, 'r')
@@ -94,7 +94,7 @@ def do_snls_spectra(catalog):
             if row[0] == '@TELESCOPE':
                 telescope = row[1].strip()
             elif row[0] == '@REDSHIFT':
-                catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT,
+                catalog.entries[name].add_quantity(KILONOVA.REDSHIFT,
                                                    row[1].strip(), source)
             if r < 14:
                 continue

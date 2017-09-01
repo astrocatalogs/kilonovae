@@ -1,4 +1,4 @@
-"""Supernova transient class."""
+"""Kilonova transient class."""
 import warnings
 from collections import OrderedDict
 from decimal import Decimal
@@ -20,8 +20,8 @@ from .constants import MAX_VISUAL_BANDS
 from .utils import frame_priority, host_clean, radec_clean
 
 
-class SUPERNOVA(ENTRY):
-    """Supernova `Key` child class."""
+class KILONOVA(ENTRY):
+    """Kilonova `Key` child class."""
     CLAIMED_TYPE = Key('claimedtype',
                        KEY_TYPES.STRING,
                        kind_preference=['spectroscopic', 'photometric'],
@@ -37,8 +37,8 @@ class SUPERNOVA(ENTRY):
     ERRORS = Key('errors')
 
 
-class Supernova(Entry):
-    """Supernova `Entry` child class.
+class Kilonova(Entry):
+    """Kilonova `Entry` child class.
 
     NOTE: OrderedDict data is just the `name` values from the JSON file.
           I.e. it does not include the highest nesting level
@@ -48,11 +48,11 @@ class Supernova(Entry):
          case?)
     """
 
-    _KEYS = SUPERNOVA
+    _KEYS = KILONOVA
 
     def __init__(self, catalog, name, stub=False):
-        """Initialize `Supernova`."""
-        super(Supernova, self).__init__(catalog, name, stub=stub)
+        """Initialize `Kilonova`."""
+        super(Kilonova, self).__init__(catalog, name, stub=stub)
         return
 
     def _append_additional_tags(self, name, sources, quantity):
@@ -185,8 +185,8 @@ class Supernova(Entry):
                      source,
                      forcereplacebetter=False,
                      **kwargs):
-        """Add `Quantity` to `Supernova`."""
-        success = super(Supernova, self).add_quantity(
+        """Add `Quantity` to `Kilonova`."""
+        success = super(Kilonova, self).add_quantity(
             quantities, value, source, **kwargs)
 
         if not success:
@@ -322,8 +322,8 @@ class Supernova(Entry):
                     if (cleaned_value.startswith('SN') and
                             is_integer(cleaned_value[2:6]) and
                             int(cleaned_value[2:6]) >= 2016):
-                        success = super(Supernova, self).add_quantity(
-                            SUPERNOVA.ALIAS, 'AT' + cleaned_value[2:], source,
+                        success = super(Kilonova, self).add_quantity(
+                            KILONOVA.ALIAS, 'AT' + cleaned_value[2:], source,
                             **kwargs)
 
         return True
@@ -380,7 +380,7 @@ class Supernova(Entry):
                     kwargs[SOURCE.URL] = rep
                     break
 
-        return super(Supernova, self).add_source(**kwargs)
+        return super(Kilonova, self).add_source(**kwargs)
 
     def priority_prefixes(self):
         """Prefixes to given priority to when merging duplicate entries.
@@ -398,9 +398,9 @@ class Supernova(Entry):
         """These aliases are considered when merging duplicates only, but are
         not added to the list of aliases that would be included with the event
         """
-        if (self[SUPERNOVA.NAME].startswith('SN') and
-                is_number(self[SUPERNOVA.NAME][2:6])):
-            return ['AT' + self[SUPERNOVA.NAME][2:]]
+        if (self[KILONOVA.NAME].startswith('SN') and
+                is_number(self[KILONOVA.NAME][2:6])):
+            return ['AT' + self[KILONOVA.NAME][2:]]
         return []
 
     def _get_save_path(self, bury=False):
@@ -435,7 +435,7 @@ class Supernova(Entry):
         return outdir, filename
 
     def sanitize(self):
-        super(Supernova, self).sanitize()
+        super(Kilonova, self).sanitize()
 
         # Calculate some columns based on imported data, sanitize some fields
         name = self[self._KEYS.NAME]
@@ -722,7 +722,7 @@ class Supernova(Entry):
         return flmjd, flsource
 
     def set_first_max_light(self):
-        if SUPERNOVA.MAX_APP_MAG not in self:
+        if KILONOVA.MAX_APP_MAG not in self:
             # Get the maximum amongst all bands
             mldt, mlmag, mlband, mlsource = self._get_max_light()
             if mldt or mlmag or mlband:
@@ -731,16 +731,16 @@ class Supernova(Entry):
             if mldt:
                 max_date = make_date_string(mldt.year, mldt.month, mldt.day)
                 self.add_quantity(
-                    SUPERNOVA.MAX_DATE, max_date, uniq_src, derived=True)
+                    KILONOVA.MAX_DATE, max_date, uniq_src, derived=True)
             if mlmag:
                 mlmag = pretty_num(mlmag)
                 self.add_quantity(
-                    SUPERNOVA.MAX_APP_MAG, mlmag, uniq_src, derived=True)
+                    KILONOVA.MAX_APP_MAG, mlmag, uniq_src, derived=True)
             if mlband:
                 self.add_quantity(
-                    SUPERNOVA.MAX_BAND, mlband, uniq_src, derived=True)
+                    KILONOVA.MAX_BAND, mlband, uniq_src, derived=True)
 
-        if SUPERNOVA.MAX_VISUAL_APP_MAG not in self:
+        if KILONOVA.MAX_VISUAL_APP_MAG not in self:
             # Get the "visual" maximum
             mldt, mlmag, mlband, mlsource = self._get_max_light(visual=True)
             if mldt or mlmag or mlband:
@@ -749,20 +749,20 @@ class Supernova(Entry):
             if mldt:
                 max_date = make_date_string(mldt.year, mldt.month, mldt.day)
                 self.add_quantity(
-                    SUPERNOVA.MAX_VISUAL_DATE,
+                    KILONOVA.MAX_VISUAL_DATE,
                     max_date,
                     uniq_src,
                     derived=True)
             if mlmag:
                 mlmag = pretty_num(mlmag)
                 self.add_quantity(
-                    SUPERNOVA.MAX_VISUAL_APP_MAG,
+                    KILONOVA.MAX_VISUAL_APP_MAG,
                     mlmag,
                     uniq_src,
                     derived=True)
             if mlband:
                 self.add_quantity(
-                    SUPERNOVA.MAX_VISUAL_BAND, mlband, uniq_src, derived=True)
+                    KILONOVA.MAX_VISUAL_BAND, mlband, uniq_src, derived=True)
 
         if (self._KEYS.DISCOVER_DATE not in self or max([
                 len(x[QUANTITY.VALUE].split('/'))
@@ -810,10 +810,10 @@ class Supernova(Entry):
         bandless photometry, in such cases the bandless photometry is not
         providing additional information.
         """
-        if SUPERNOVA.PHOTOMETRY not in self:
+        if KILONOVA.PHOTOMETRY not in self:
             return
         mjds = [
-            float(x[PHOTOMETRY.TIME]) for x in self[SUPERNOVA.PHOTOMETRY]
+            float(x[PHOTOMETRY.TIME]) for x in self[KILONOVA.PHOTOMETRY]
             if (PHOTOMETRY.TIME in x and x.get(PHOTOMETRY.U_TIME, '') == 'MJD'
                 and PHOTOMETRY.MAGNITUDE in x and PHOTOMETRY.BAND in x)
         ]
@@ -822,7 +822,7 @@ class Supernova(Entry):
         minmjd = min(mjds) - 1
         maxmjd = max(mjds) + 1
         newphotos = []
-        for photo in self[SUPERNOVA.PHOTOMETRY]:
+        for photo in self[KILONOVA.PHOTOMETRY]:
             if (PHOTOMETRY.MAGNITUDE in photo and
                     PHOTOMETRY.BAND not in photo and
                 (PHOTOMETRY.TIME not in photo or
@@ -835,10 +835,10 @@ class Supernova(Entry):
                                    photo[PHOTOMETRY.MAGNITUDE]))
                 continue
             newphotos.append(photo)
-        self[SUPERNOVA.PHOTOMETRY] = newphotos
+        self[KILONOVA.PHOTOMETRY] = newphotos
         return
 
-    def get_best_redshift(self, key=SUPERNOVA.REDSHIFT):
+    def get_best_redshift(self, key=KILONOVA.REDSHIFT):
         bestsig = -1
         bestkind = None
         for z in self[key]:
@@ -887,9 +887,9 @@ class Supernova(Entry):
                 newname = alias
                 break
         # Otherwise, name based on the 'discoverer' survey
-        if not newname and SUPERNOVA.DISCOVERER in self:
+        if not newname and KILONOVA.DISCOVERER in self:
             discoverer = ','.join(
-                [x['value'].upper() for x in self[SUPERNOVA.DISCOVERER]])
+                [x['value'].upper() for x in self[KILONOVA.DISCOVERER]])
             if 'ASAS' in discoverer:
                 for alias in aliases:
                     if 'ASASSN' in alias.upper():

@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_ogle(catalog):
@@ -104,7 +104,7 @@ def do_ogle(catalog):
                     catalog.entries[name].add_source(
                         name=reference, url=refurl)
                 ]
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                                    sources[0])
                 if atelref and atelref != 'ATel#----':
                     sources.append(catalog.entries[name].add_source(
@@ -115,23 +115,23 @@ def do_ogle(catalog):
                     if name[4] == '-':
                         if is_number(name[5:9]):
                             catalog.entries[name].add_quantity(
-                                SUPERNOVA.DISCOVER_DATE, name[5:9], sources)
+                                KILONOVA.DISCOVER_DATE, name[5:9], sources)
                     else:
                         if is_number(name[4:6]):
                             catalog.entries[name].add_quantity(
-                                SUPERNOVA.DISCOVER_DATE, '20' + name[4:6],
+                                KILONOVA.DISCOVER_DATE, '20' + name[4:6],
                                 sources)
 
                 # RA and Dec from OGLE pages currently not reliable
-                # catalog.entries[name].add_quantity(SUPERNOVA.RA, ra, sources)
-                # catalog.entries[name].add_quantity(SUPERNOVA.DEC, dec,
+                # catalog.entries[name].add_quantity(KILONOVA.RA, ra, sources)
+                # catalog.entries[name].add_quantity(KILONOVA.DEC, dec,
                 # sources)
                 if claimedtype and claimedtype != '-':
-                    catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+                    catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                        claimedtype, sources)
                 elif ('SN' not in name and
-                      SUPERNOVA.CLAIMED_TYPE not in catalog.entries[name]):
-                    catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+                      KILONOVA.CLAIMED_TYPE not in catalog.entries[name]):
+                    catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                        'Candidate', sources)
                 for row in lcdat:
                     row = row.split()

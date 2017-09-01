@@ -8,7 +8,7 @@ from astropy.time import Time as astrotime
 from astrocats.catalog.utils import make_date_string, pbar
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_grb(catalog):
@@ -33,12 +33,12 @@ def do_grb(catalog):
             srcname='Gamma-ray Bursts Catalog',
             url='http://www.grbcatalog.org')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA, row[2], source, u_value='floatdegrees')
+            KILONOVA.RA, row[2], source, u_value='floatdegrees')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC, row[3], source, u_value='floatdegrees')
-        catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, 'LGRB',
+            KILONOVA.DEC, row[3], source, u_value='floatdegrees')
+        catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, 'LGRB',
                                            source)
-        catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT, row[8], source)
+        catalog.entries[name].add_quantity(KILONOVA.REDSHIFT, row[8], source)
 
     catalog.journal_entries()
     return
@@ -104,22 +104,22 @@ def do_batse(catalog):
         jd = Decimal(2440000.5) + Decimal(row[3])
         astrot = astrotime(float(jd), format='jd').datetime
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DISCOVER_DATE,
+            KILONOVA.DISCOVER_DATE,
             make_date_string(astrot.year, astrot.month, astrot.day), source)
         pos_err = str(Decimal(row[9]) * Decimal(3600))
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA,
+            KILONOVA.RA,
             row[5],
             source,
             u_value='floatdegrees',
             e_value=pos_err)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC,
+            KILONOVA.DEC,
             row[6],
             source,
             u_value='floatdegrees',
             e_value=pos_err)
-        catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, 'LGRB',
+        catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, 'LGRB',
                                            source)
 
     catalog.journal_entries()

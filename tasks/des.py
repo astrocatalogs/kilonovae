@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from astrocats.catalog.photometry import PHOTOMETRY
 from astrocats.catalog.utils import pbar
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_des(catalog):
@@ -59,9 +59,9 @@ def do_des(catalog):
             catalog.entries[name].add_source(bibcode='2015AJ....150..172K')
         ]
         sources = ','.join(sources)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, sources)
-        catalog.entries[name].add_quantity(SUPERNOVA.RA, ra, sources)
-        catalog.entries[name].add_quantity(SUPERNOVA.DEC, dec, sources)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, sources)
+        catalog.entries[name].add_quantity(KILONOVA.RA, ra, sources)
+        catalog.entries[name].add_quantity(KILONOVA.DEC, dec, sources)
 
         html2 = catalog.load_url(des_trans_url + name,
                                  des_path + name + '.html')

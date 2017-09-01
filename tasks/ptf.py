@@ -5,7 +5,7 @@ import os
 from astrocats.catalog.utils import is_number, pbar
 from bs4 import BeautifulSoup
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_ptf(catalog):
@@ -40,7 +40,7 @@ def do_ptf(catalog):
                     continue
                 name, source = catalog.new_entry(
                     name, bibcode='2012PASP..124..668Y')
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, alias,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, alias,
                                                    source)
             else:
                 # name = catalog.add_entry(name)
@@ -66,25 +66,25 @@ def do_ptf(catalog):
             name = catalog.add_entry(name)
             source = catalog.entries[name].add_source(
                 bibcode='2016ApJ...830...13P')
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
             if alias:
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, alias,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, alias,
                                                    source)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, cols[1], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, cols[2], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+            catalog.entries[name].add_quantity(KILONOVA.RA, cols[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, cols[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                'SLSN-' + cols[3], source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT, cols[4], source, kind='spectroscopic')
+                KILONOVA.REDSHIFT, cols[4], source, kind='spectroscopic')
             maxdate = cols[6].replace('-', '/')
             upl = maxdate.startswith('<')
             catalog.entries[name].add_quantity(
-                SUPERNOVA.MAX_DATE,
+                KILONOVA.MAX_DATE,
                 maxdate.lstrip('<'),
                 source,
                 upperlimit=upl)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.EBV, cols[7], source, kind='spectroscopic')
+                KILONOVA.EBV, cols[7], source, kind='spectroscopic')
             name = catalog.add_entry('PTF' + suffix)
 
     catalog.journal_entries()

@@ -16,7 +16,7 @@ from astrocats.catalog.utils import (is_integer, is_number, jd_to_mjd, pbar,
                                      pretty_num, sortOD)
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_tns(catalog):
@@ -82,31 +82,31 @@ def do_tns(catalog):
             name = catalog.add_entry(name)
             source = catalog.entries[name].add_source(
                 name='Transient Name Server', url=tns_url)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
             if row[2] and row[2] != '00:00:00.00':
-                catalog.entries[name].add_quantity(SUPERNOVA.RA, row[2],
+                catalog.entries[name].add_quantity(KILONOVA.RA, row[2],
                                                    source)
             if row[3] and row[3] != '+00:00:00.00':
-                catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[3],
+                catalog.entries[name].add_quantity(KILONOVA.DEC, row[3],
                                                    source)
             if row[4]:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, row[4].replace('SN', '').strip(),
+                    KILONOVA.CLAIMED_TYPE, row[4].replace('SN', '').strip(),
                     source)
             if row[5]:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT, row[5], source, kind='spectroscopic')
+                    KILONOVA.REDSHIFT, row[5], source, kind='spectroscopic')
             if row[6]:
-                catalog.entries[name].add_quantity(SUPERNOVA.HOST, row[6],
+                catalog.entries[name].add_quantity(KILONOVA.HOST, row[6],
                                                    source)
             if row[7]:
                 catalog.entries[name].add_quantity(
-                    [SUPERNOVA.REDSHIFT, SUPERNOVA.HOST_REDSHIFT],
+                    [KILONOVA.REDSHIFT, KILONOVA.HOST_REDSHIFT],
                     row[7],
                     source,
                     kind='host')
             if row[8]:
-                catalog.entries[name].add_quantity(SUPERNOVA.DISCOVERER,
+                catalog.entries[name].add_quantity(KILONOVA.DISCOVERER,
                                                    row[8], source)
             # Currently, all events listing all possible observers. TNS bug?
             # if row[9]:
@@ -116,7 +116,7 @@ def do_tns(catalog):
             #                                  observer.strip(),
             #                                  source)
             if row[10]:
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[10],
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[10],
                                                    source)
             if row[16]:
                 date = row[16].split()[0].replace('-', '/')
@@ -132,7 +132,7 @@ def do_tns(catalog):
                         date += pretty_num(
                             dt.total_seconds() / (24 * 60 * 60),
                             sig=6).lstrip('0')
-                    catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE,
+                    catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE,
                                                        date, source)
             if catalog.args.travis and ri >= catalog.TRAVIS_QUERY_LIMIT:
                 break

@@ -7,7 +7,7 @@ from astropy.time import Time as astrotime
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_snax(catalog):
@@ -48,20 +48,20 @@ def do_snax(catalog):
             catalog.entries[name].add_source(bibcode=row[-2].strip())
         ])
 
-        catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, row[1],
+        catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, row[1],
                                            source)
         date = astrotime(float(row[2]), format='jd').datetime
         catalog.entries[name].add_quantity(
-            SUPERNOVA.EXPLOSION_DATE,
+            KILONOVA.EXPLOSION_DATE,
             make_date_string(date.year, date.month, date.day), expsrc)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA, ' '.join(row[3].split()[:3]), coosrc)
+            KILONOVA.RA, ' '.join(row[3].split()[:3]), coosrc)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC, ' '.join(row[3].split()[:3]), coosrc)
-        catalog.entries[name].add_quantity(SUPERNOVA.LUM_DIST, row[4], dissrc)
-        catalog.entries[name].add_quantity(SUPERNOVA.HOST, row[5], source)
+            KILONOVA.DEC, ' '.join(row[3].split()[:3]), coosrc)
+        catalog.entries[name].add_quantity(KILONOVA.LUM_DIST, row[4], dissrc)
+        catalog.entries[name].add_quantity(KILONOVA.HOST, row[5], source)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.REDSHIFT,
+            KILONOVA.REDSHIFT,
             row[6],
             source,
             e_value=row[7] if (row[7] and float(row[7]) != 0.0) else '')

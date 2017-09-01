@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 from astrocats.catalog.utils import pbar
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_snhunt(catalog):
@@ -45,22 +45,22 @@ def do_snhunt(catalog):
         name = catalog.add_entry(name)
         source = catalog.entries[name].add_source(
             name='Supernova Hunt', url=snh_url)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         host = re.sub('<[^<]+?>', '', cols[1]).strip().replace('_', ' ')
-        catalog.entries[name].add_quantity(SUPERNOVA.HOST, host, source)
+        catalog.entries[name].add_quantity(KILONOVA.HOST, host, source)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA, cols[2], source, u_value='floatdegrees')
+            KILONOVA.RA, cols[2], source, u_value='floatdegrees')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC, cols[3], source, u_value='floatdegrees')
+            KILONOVA.DEC, cols[3], source, u_value='floatdegrees')
         dd = cols[0]
         discoverdate = dd[:4] + '/' + dd[4:6] + '/' + dd[6:8]
-        catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE,
+        catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE,
                                            discoverdate, source)
         discoverers = cols[5].split('/')
         for discoverer in discoverers:
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVERER, 'CRTS',
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVERER, 'CRTS',
                                                source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVERER,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVERER,
                                                discoverer, source)
         if catalog.args.update:
             catalog.journal_entries()

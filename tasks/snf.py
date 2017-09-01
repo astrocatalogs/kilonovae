@@ -9,7 +9,7 @@ from astropy.time import Time as astrotime
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_snf_aliases(catalog):
@@ -20,7 +20,7 @@ def do_snf_aliases(catalog):
             name, source = catalog.new_entry(
                 row[0], bibcode=catalog.OSC_BIBCODE, srcname=catalog.OSC_NAME,
                 url=catalog.OSC_URL, secondary=True)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[1], source)
 
     catalog.journal_entries()
     return
@@ -49,7 +49,7 @@ def do_snf_specta(catalog):
         sec_source = catalog.entries[name].add_source(
             name=sec_reference, url=sec_refurl, bibcode=sec_bibcode,
             secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, oname, sec_source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, oname, sec_source)
         bibcode = bibcodes[oname]
         source = catalog.entries[name].add_source(bibcode=bibcode)
         sources = uniq_cdl([source, sec_source])

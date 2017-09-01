@@ -14,7 +14,7 @@ from astrocats.catalog.utils import (get_sig_digits, is_number, jd_to_mjd,
 from astropy.io.ascii import read
 from astropy.time import Time as astrotime
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_donated_photo(catalog):
@@ -324,7 +324,7 @@ def do_donated_photo(catalog):
         if not bibcode:
             raise ValueError('Bibcode not found!')
         source = catalog.entries[name].add_source(bibcode=bibcode)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, inpname, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, inpname, source)
         if inpname in ignorephoto:
             continue
         with open(datafile, 'r') as f:
@@ -422,21 +422,21 @@ def do_donated_photo(catalog):
             source = (catalog.entries[name]
                       .add_source(bibcode='2016A&A...585A.162M'))
             catalog.entries[name].add_quantity(
-                SUPERNOVA.ALIAS,
+                KILONOVA.ALIAS,
                 'LMCSNR J' + rep_chars(ra, ' :.') + rep_chars(dec, ' :.'),
                 source)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
             if row[1] != 'noname':
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[1],
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[1],
                                                    source)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, row[2], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[3], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, 'LMC', source)
+            catalog.entries[name].add_quantity(KILONOVA.RA, row[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, row[3], source)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, 'LMC', source)
             if row[4] == '1':
-                catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+                catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                    'Ia', source)
             elif row[4] == '2':
-                catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+                catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                    'CC', source)
     with open(
             os.path.join(catalog.get_current_task_repo(), 'Donations',
@@ -449,14 +449,14 @@ def do_donated_photo(catalog):
             ra = row[3]
             dec = row[4]
             catalog.entries[name].add_quantity(
-                SUPERNOVA.ALIAS, 'SMCSNR J' + ra.replace(
+                KILONOVA.ALIAS, 'SMCSNR J' + ra.replace(
                     ':', '')[:6] + dec.replace(':', '')[:7], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[1], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[2], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, row[3], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[4], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, 'SMC', source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.RA, row[3], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, row[4], source)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, 'SMC', source)
     catalog.journal_entries()
 
     # Galbany 04-18-16 donation
@@ -490,12 +490,12 @@ def do_donated_photo(catalog):
                         name = catalog.add_entry(name)
                         source = (catalog.entries[name]
                                   .add_source(bibcode=bibcode))
-                        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS,
+                        catalog.entries[name].add_quantity(KILONOVA.ALIAS,
                                                            name, source)
                     elif field == 'type':
                         claimedtype = value.replace('SN', '')
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.CLAIMED_TYPE, claimedtype, source)
+                            KILONOVA.CLAIMED_TYPE, claimedtype, source)
                     elif field == 'zhel':
                         zhel = value
                     elif field == 'redshift_error':
@@ -504,32 +504,32 @@ def do_donated_photo(catalog):
                         zcmb = value
                     elif field == 'ra':
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.RA,
+                            KILONOVA.RA,
                             value,
                             source,
                             u_value='floatdegrees')
                     elif field == 'dec':
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DEC,
+                            KILONOVA.DEC,
                             value,
                             source,
                             u_value='floatdegrees')
                     elif field == 'host':
                         value = value.replace('- ', '-').replace('G ', 'G')
-                        catalog.entries[name].add_quantity(SUPERNOVA.HOST,
+                        catalog.entries[name].add_quantity(KILONOVA.HOST,
                                                            value, source)
                     elif field == 'e(b-v)_mw':
-                        catalog.entries[name].add_quantity(SUPERNOVA.EBV,
+                        catalog.entries[name].add_quantity(KILONOVA.EBV,
                                                            value, source)
 
         catalog.entries[name].add_quantity(
-            SUPERNOVA.REDSHIFT,
+            KILONOVA.REDSHIFT,
             zhel,
             source,
             e_value=zerr,
             kind='heliocentric')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.REDSHIFT, zcmb, source, e_value=zerr, kind='cmb')
+            KILONOVA.REDSHIFT, zcmb, source, e_value=zerr, kind='cmb')
 
         for path in photfiles:
             with open(path, 'r') as f:
@@ -566,8 +566,8 @@ def do_donated_photo(catalog):
         else:
             bc = '2016ApJ...826...39N'
         source = catalog.entries[name].add_source(bibcode=bc)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, 'PS15ae', source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, 'PS15ae', source)
         telescope = os.path.basename(fi).split('_')[1]
         with open(fi, 'r') as f:
             lines = f.read().splitlines()

@@ -5,7 +5,7 @@ from glob import glob
 import dropbox
 
 from astrocats.catalog.utils import pbar
-from astrocats.supernovae.supernova import Supernova, SUPERNOVA
+from astrocats.supernovae.supernova import Supernova, KILONOVA
 from astrocats.catalog.photometry import PHOTOMETRY
 
 
@@ -47,16 +47,16 @@ def do_mosfit(catalog):
             catalog, path=fpath, compare_to_existing=False, try_gzip=True,
             clean=False, merge=False)
 
-        name = new_entry[SUPERNOVA.NAME]
+        name = new_entry[KILONOVA.NAME]
 
         # Only take a number of realizations up to the realization limit.
         new_photo = []
-        for photo in new_entry[SUPERNOVA.PHOTOMETRY]:
+        for photo in new_entry[KILONOVA.PHOTOMETRY]:
             real = int(photo.get(PHOTOMETRY.REALIZATION, -1))
             if real < 0 or real >= REALIZATION_LIMIT:
                 continue
             new_photo.append(photo)
-        new_entry[SUPERNOVA.PHOTOMETRY] = new_photo
+        new_entry[KILONOVA.PHOTOMETRY] = new_photo
 
         old_entry = None
         if name in catalog.entries:

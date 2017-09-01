@@ -13,7 +13,7 @@ from astropy.time import Time as astrotime
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_essence_photo(catalog):
@@ -34,13 +34,13 @@ def do_essence_photo(catalog):
         name, source = catalog.new_entry(
             ess_name, bibcode='2016ApJS..224....3N')
         if row[1] != '---':
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, 'SN' + row[1],
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, 'SN' + row[1],
                                                source)
         if etype != '---':
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, etype,
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, etype,
                                                source)
-        catalog.entries[name].add_quantity(SUPERNOVA.RA, row[5], source)
-        catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[6], source)
+        catalog.entries[name].add_quantity(KILONOVA.RA, row[5], source)
+        catalog.entries[name].add_quantity(KILONOVA.DEC, row[6], source)
         if is_number(row[11]):
             quantdict = {
                 QUANTITY.VALUE: row[11],
@@ -50,7 +50,7 @@ def do_essence_photo(catalog):
             if is_number(row[12]):
                 quantdict[QUANTITY.E_VALUE] = row[12]
             catalog.entries[name].add_quantity(
-                [SUPERNOVA.REDSHIFT, SUPERNOVA.HOST_REDSHIFT], **quantdict)
+                [KILONOVA.REDSHIFT, KILONOVA.HOST_REDSHIFT], **quantdict)
 
     files = glob(
         os.path.join(catalog.get_current_task_repo(), 'ESSENCE',
@@ -64,12 +64,12 @@ def do_essence_photo(catalog):
         for ri, row in enumerate(rows):
             if ri == 1:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT,
+                    KILONOVA.REDSHIFT,
                     row[5],
                     source,
                     kind=['spectroscopic', 'heliocentric'])
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT,
+                    KILONOVA.REDSHIFT,
                     row[6],
                     source,
                     kind=['spectroscopic', 'cmb'])

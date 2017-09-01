@@ -13,7 +13,7 @@ from astrocats.catalog.utils import is_number, make_date_string, pbar, uniq_cdl
 from astropy.time import Time as astrotime
 from bs4 import BeautifulSoup
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_ps_mds(catalog):
@@ -28,16 +28,16 @@ def do_ps_mds(catalog):
             name = catalog.add_entry(cols[0])
             source = catalog.entries[name].add_source(
                 bibcode='2015ApJ...799..208S')
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, cols[2], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, cols[3], source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.RA, cols[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, cols[3], source)
             astrot = astrotime(float(cols[4]), format='mjd').datetime
             ddate = make_date_string(astrot.year, astrot.month, astrot.day)
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, ddate,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, ddate,
                                                source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT, cols[5], source, kind='spectroscopic')
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, 'II P',
+                KILONOVA.REDSHIFT, cols[5], source, kind='spectroscopic')
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, 'II P',
                                                source)
     catalog.journal_entries()
     return
@@ -103,13 +103,13 @@ def do_ps_alerts(catalog):
             srcname='Pan-STARRS Alerts',
             url='http://telescopes.rc.fas.harvard.edu/ps1/')
 
-        catalog.entries[name].add_quantity(SUPERNOVA.RA, row[4], source)
-        catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[5], source)
+        catalog.entries[name].add_quantity(KILONOVA.RA, row[4], source)
+        catalog.entries[name].add_quantity(KILONOVA.DEC, row[5], source)
         if sntype != '-':
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, sntype,
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, sntype,
                                                source)
         if row[22] != '-':
-            catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT, row[22],
+            catalog.entries[name].add_quantity(KILONOVA.REDSHIFT, row[22],
                                                source)
         # Disabling photometry import
         continue
@@ -279,7 +279,7 @@ def do_ps_threepi(catalog):
                     url=('http://psweb.mp.qub.ac.uk/'
                          'ps1threepi/psdb/'))
             ]
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                                sources[0])
             for ref in refs:
                 sources.append(catalog.entries[name].add_source(
@@ -290,11 +290,11 @@ def do_ps_threepi(catalog):
                 if alias[:3] in ['CSS', 'SSS', 'MLS']:
                     newalias = alias.replace('-', ':', 1)
                 newalias = newalias.replace('PSNJ', 'PSN J')
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, newalias,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, newalias,
                                                    source)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, ra, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, dec, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, ctype,
+            catalog.entries[name].add_quantity(KILONOVA.RA, ra, source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, dec, source)
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, ctype,
                                                source)
 
             fname2 = os.path.join(catalog.get_current_task_repo(),
@@ -390,11 +390,11 @@ def do_ps_threepi(catalog):
             # Skip galaxies with just SDSS id
             if is_number(hostname):
                 continue
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, hostname,
+            catalog.entries[name].add_quantity(KILONOVA.HOST, hostname,
                                                source)
             if redshift:
                 catalog.entries[name].add_quantity(
-                    [SUPERNOVA.REDSHIFT, SUPERNOVA.HOST_REDSHIFT],
+                    [KILONOVA.REDSHIFT, KILONOVA.HOST_REDSHIFT],
                     redshift,
                     source,
                     kind='host')

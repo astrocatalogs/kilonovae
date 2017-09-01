@@ -7,7 +7,7 @@ from astrocats.catalog.quantity import QUANTITY
 from astrocats.catalog.utils import pbar
 from astropy.table import Table
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_sncosmo(catalog):
@@ -26,14 +26,14 @@ def do_sncosmo(catalog):
 
     for event in pbar(catalog.entries, task_str):
         catalog.add_entry(event, delete=False)
-        if (SUPERNOVA.PHOTOMETRY not in catalog.entries[event]  # or
-                # SUPERNOVA.REDSHIFT in catalog.entries[event] or
-                # SUPERNOVA.LUM_DIST in catalog.entries[event]
+        if (KILONOVA.PHOTOMETRY not in catalog.entries[event]  # or
+                # KILONOVA.REDSHIFT in catalog.entries[event] or
+                # KILONOVA.LUM_DIST in catalog.entries[event]
             ):
             catalog.entries[event] = catalog.entries[event].get_stub()
             continue
         photodat = []
-        for photo in catalog.entries[event][SUPERNOVA.PHOTOMETRY]:
+        for photo in catalog.entries[event][KILONOVA.PHOTOMETRY]:
             if (photo.get(PHOTOMETRY.BAND_SET, '') == 'SDSS' and
                     PHOTOMETRY.TIME in photo and PHOTOMETRY.BAND in photo and
                     PHOTOMETRY.FLUX_DENSITY in photo and
@@ -62,7 +62,7 @@ def do_sncosmo(catalog):
         table = Table(
             rows=photodat,
             names=('time', 'band', 'flux', 'fluxerr', 'zp', 'zpsys'))
-        if (catalog.entries[event].get(SUPERNOVA.CLAIMED_TYPE, [{
+        if (catalog.entries[event].get(KILONOVA.CLAIMED_TYPE, [{
                 QUANTITY.VALUE: ''
         }])[0][QUANTITY.VALUE] == 'Ia'):
             source = sncosmo.get_source('salt2', version='2.4')
@@ -92,12 +92,12 @@ def do_sncosmo(catalog):
             if fm:
                 print(event, res.chisq / res.ndof,
                       fm.get('z'),
-                      catalog.entries[event][SUPERNOVA.REDSHIFT][0]['value']
-                      if SUPERNOVA.REDSHIFT in catalog.entries[event] else
+                      catalog.entries[event][KILONOVA.REDSHIFT][0]['value']
+                      if KILONOVA.REDSHIFT in catalog.entries[event] else
                       'no redshift')
                 # source = catalog.entries[event].add_source(
                 #     bibcode='2014A&A...568A..22B')
-                # catalog.entries[event].add_quantity(SUPERNOVA.REDSHIFT,
+                # catalog.entries[event].add_quantity(KILONOVA.REDSHIFT,
                 #                                     str(fm.get('z')), source)
                 catalog.journal_entries()
             else:

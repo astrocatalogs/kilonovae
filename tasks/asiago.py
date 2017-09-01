@@ -10,7 +10,7 @@ from astrocats.catalog.utils import is_number, pbar, uniq_cdl, utf8
 # from astropy.time import Time as astrotime
 from bs4 import BeautifulSoup
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 from ..utils import clean_snname
 
 
@@ -50,7 +50,7 @@ def do_asiago_photo(catalog):
                 secondary=True)
 
             year = re.findall(r'\d+', oldname)[0]
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, year,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, year,
                                                source)
 
             hostname = record[2]
@@ -65,9 +65,9 @@ def do_asiago_photo(catalog):
 
             monthday = record[18]
             if "*" in monthday:
-                datekey = SUPERNOVA.DISCOVER_DATE
+                datekey = KILONOVA.DISCOVER_DATE
             else:
-                datekey = SUPERNOVA.MAX_DATE
+                datekey = KILONOVA.MAX_DATE
 
             if monthday.strip() != '':
                 monthstr = ''.join(re.findall('[a-zA-Z]+', monthday))
@@ -94,37 +94,37 @@ def do_asiago_photo(catalog):
             claimedtype = record[17].replace(':', '').replace('*', '').strip()
 
             if (hostname != ''):
-                catalog.entries[name].add_quantity(SUPERNOVA.HOST, hostname,
+                catalog.entries[name].add_quantity(KILONOVA.HOST, hostname,
                                                    source)
             if (claimedtype != ''):
-                catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+                catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                    claimedtype, source)
             if (redshift != ''):
                 catalog.entries[name].add_quantity(
-                    [SUPERNOVA.REDSHIFT, SUPERNOVA.HOST_REDSHIFT],
+                    [KILONOVA.REDSHIFT, KILONOVA.HOST_REDSHIFT],
                     redshift,
                     source,
                     kind='host')
             if (velocity != ''):
                 catalog.entries[name].add_quantity(
-                    [SUPERNOVA.VELOCITY, SUPERNOVA.HOST_VELOCITY],
+                    [KILONOVA.VELOCITY, KILONOVA.HOST_VELOCITY],
                     velocity,
                     source,
                     kind='host')
             if (hostra != ''):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.HOST_RA, hostra, source, u_value='nospace')
+                    KILONOVA.HOST_RA, hostra, source, u_value='nospace')
             if (hostdec != ''):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.HOST_DEC, hostdec, source, u_value='nospace')
+                    KILONOVA.HOST_DEC, hostdec, source, u_value='nospace')
             if (ra != ''):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.RA, ra, source, u_value='nospace')
+                    KILONOVA.RA, ra, source, u_value='nospace')
             if (dec != ''):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.DEC, dec, source, u_value='nospace')
+                    KILONOVA.DEC, dec, source, u_value='nospace')
             if (discoverer != ''):
-                catalog.entries[name].add_quantity(SUPERNOVA.DISCOVERER,
+                catalog.entries[name].add_quantity(KILONOVA.DISCOVERER,
                                                    discoverer, source)
         if catalog.args.travis and ri >= catalog.TRAVIS_QUERY_LIMIT:
             break
@@ -173,10 +173,10 @@ def do_asiago_spectra(catalog):
                 refurl = 'http://graspa.oapd.inaf.it/cgi-bin/sncat.php'
                 secondarysource = catalog.entries[name].add_source(
                     name=reference, url=refurl, secondary=True)
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, oldname,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, oldname,
                                                    secondarysource)
                 if alias != name:
-                    catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, alias,
+                    catalog.entries[name].add_quantity(KILONOVA.ALIAS, alias,
                                                        secondarysource)
             elif tdi == 2:
                 host = td.text.strip()
@@ -213,7 +213,7 @@ def do_asiago_spectra(catalog):
                 if reference:
                     source = catalog.entries[name].add_source(
                         name=reference, url=refurl)
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                                    secondarysource)
                 sources = uniq_cdl(
                     list(filter(None, [source, secondarysource])))
@@ -223,15 +223,15 @@ def do_asiago_spectra(catalog):
                 # if fitslink:
                 #     fitsurl = fitslink['href']
         if name:
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                claimedtype, sources)
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, ra, sources)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, dec, sources)
-            catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT, redshift,
+            catalog.entries[name].add_quantity(KILONOVA.RA, ra, sources)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, dec, sources)
+            catalog.entries[name].add_quantity(KILONOVA.REDSHIFT, redshift,
                                                sources)
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVERER,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVERER,
                                                discoverer, sources)
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, host, sources)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, host, sources)
 
             # if fitsurl:
             #    response = urllib.request.urlopen(

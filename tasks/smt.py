@@ -5,7 +5,7 @@ import os
 from astrocats.catalog.utils import pbar
 from bs4 import BeautifulSoup
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_smt(catalog):
@@ -24,13 +24,13 @@ def do_smt(catalog):
             continue
         name = 'AT' + cols[0]
         name, source = catalog.new_entry(name, srcname='SMT', url=smt_url)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, cols[1], source)
-        catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, cols[2],
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, cols[1], source)
+        catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, cols[2],
                                            source)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA, cols[3], source, u_value='floatdegrees')
+            KILONOVA.RA, cols[3], source, u_value='floatdegrees')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC, cols[4], source, u_value='floatdegrees')
+            KILONOVA.DEC, cols[4], source, u_value='floatdegrees')
         if catalog.args.update:
             catalog.journal_entries()
 
