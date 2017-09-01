@@ -10,12 +10,12 @@ from astrocats.catalog.catalog import Catalog
 from astrocats.catalog.quantity import QUANTITY
 from astrocats.catalog.utils import read_json_arr, read_json_dict
 
-from .supernova import SUPERNOVA, Supernova
+from .supernova import KILONOVA, Kilonova
 from .utils import name_clean
 
 
-class SupernovaCatalog(Catalog):
-    """Catalog class for `Supernova` objects."""
+class KilonovaCatalog(Catalog):
+    """Catalog class for `Kilonova` objects."""
 
     class PATHS(Catalog.PATHS):
         """Paths to catalog inputs/outputs."""
@@ -24,7 +24,7 @@ class SupernovaCatalog(Catalog):
 
         def __init__(self, catalog):
             """Initialize paths."""
-            super(SupernovaCatalog.PATHS, self).__init__(catalog)
+            super(KilonovaCatalog.PATHS, self).__init__(catalog)
             # auxiliary datafiles
             self.TYPE_SYNONYMS = os.path.join(
                 self.PATH_INPUT, 'type-synonyms.json')
@@ -67,8 +67,8 @@ class SupernovaCatalog(Catalog):
     def __init__(self, args, log):
         """Initialize catalog."""
         # Initialize super `astrocats.catalog.catalog.Catalog` object
-        super(SupernovaCatalog, self).__init__(args, log)
-        self.proto = Supernova
+        super(KilonovaCatalog, self).__init__(args, log)
+        self.proto = Kilonova
         self._load_aux_data()
         return
 
@@ -78,7 +78,7 @@ class SupernovaCatalog(Catalog):
         An entry would be buried if it does not belong to the class of object
         associated with the given catalog.
         """
-        (bury_entry, save_entry) = super(SupernovaCatalog, self).should_bury(name)
+        (bury_entry, save_entry) = super(KilonovaCatalog, self).should_bury(name)
 
         ct_val = None
         if name.startswith(tuple(self.nonsneprefixes_dict)):
@@ -86,8 +86,8 @@ class SupernovaCatalog(Catalog):
                 "Killing '{}', non-SNe prefix.".format(name))
             save_entry = False
         else:
-            if SUPERNOVA.CLAIMED_TYPE in self.entries[name]:
-                for ct in self.entries[name][SUPERNOVA.CLAIMED_TYPE]:
+            if KILONOVA.CLAIMED_TYPE in self.entries[name]:
+                for ct in self.entries[name][KILONOVA.CLAIMED_TYPE]:
                     up_val = ct[QUANTITY.VALUE].upper().replace('?', '')
                     up_types = [x.upper() for x in self.nonsnetypes]
                     if up_val not in up_types and up_val != 'CANDIDATE':
@@ -98,17 +98,17 @@ class SupernovaCatalog(Catalog):
                         bury_entry = True
                         ct_val = ct[QUANTITY.VALUE]
             else:
-                if (SUPERNOVA.DISCOVER_DATE in self.entries[name] and
+                if (KILONOVA.DISCOVER_DATE in self.entries[name] and
                     not any([x.get(QUANTITY.VALUE).startswith('SN')
-                             for x in self.entries[name][SUPERNOVA.ALIAS]])):
+                             for x in self.entries[name][KILONOVA.ALIAS]])):
                     try:
                         try:
                             dd = datetime.strptime(self.entries[name][
-                                SUPERNOVA.DISCOVER_DATE][0].get('value', ''),
+                                KILONOVA.DISCOVER_DATE][0].get('value', ''),
                                 '%Y/%m/%d')
                         except ValueError:
                             dd = datetime.strptime(self.entries[name][
-                                SUPERNOVA.DISCOVER_DATE][0].get('value', '') +
+                                KILONOVA.DISCOVER_DATE][0].get('value', '') +
                                 '/12/31',
                                 '%Y/%m/%d')
                     except ValueError:

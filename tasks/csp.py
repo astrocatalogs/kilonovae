@@ -7,7 +7,7 @@ from astrocats.catalog.utils import jd_to_mjd, pbar_strings
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 from ..utils import clean_snname
 
 
@@ -30,22 +30,22 @@ def do_csp_photo(catalog):
         refurl = 'http://csp.obs.carnegiescience.edu/data'
         source = catalog.entries[name].add_source(
             bibcode=refbib, name=reference, url=refurl)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
 
         year = re.findall(r'\d+', name)[0]
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DISCOVER_DATE, year, source)
+            KILONOVA.DISCOVER_DATE, year, source)
 
         for r, row in enumerate(tsvin):
             if len(row) > 0 and row[0][0] == "#":
                 if r == 2:
                     redz = row[0].split(' ')[-1]
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.REDSHIFT, redz, source, kind='cmb')
+                        KILONOVA.REDSHIFT, redz, source, kind='cmb')
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.RA, row[1].split(' ')[-1], source)
+                        KILONOVA.RA, row[1].split(' ')[-1], source)
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.DEC, row[2].split(' ')[-1], source)
+                        KILONOVA.DEC, row[2].split(' ')[-1], source)
                 if 'MJD' in ''.join(row):
                     cspbands = list(filter(None, [
                         x.strip()
@@ -88,7 +88,7 @@ def do_csp_spectra(catalog):
         instrument = fileparts[-1]
         source = catalog.entries[name].add_source(
             bibcode='2013ApJ...773...53F')
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
 
         data = csv.reader(open(fname, 'r'), delimiter=' ',
                           skipinitialspace=True)
@@ -98,7 +98,7 @@ def do_csp_spectra(catalog):
                 jd = row[1].strip()
                 time = str(jd_to_mjd(Decimal(jd)))
             elif row[0] == '#Redshift:':
-                catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT,
+                catalog.entries[name].add_quantity(KILONOVA.REDSHIFT,
                                                    row[1].strip(),
                                                    source)
             if r < 7:

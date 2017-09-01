@@ -12,7 +12,7 @@ from astropy.time import Time as astrotime
 from astrocats.catalog.source import SOURCE
 from astrocats.catalog.utils import is_number, pbar, pbar_strings, uniq_cdl
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_wiserep_spectra(catalog):
@@ -68,7 +68,7 @@ def do_wiserep_spectra(catalog):
             url=secondaryrefurl,
             bibcode=secondarybibcode,
             secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                            secondarysource)
 
         readme_path = os.path.join(folder, 'README.json')
@@ -117,8 +117,8 @@ def do_wiserep_spectra(catalog):
 
             if claimedtype not in ['Other']:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, claimedtype, secondarysource)
-            catalog.entries[name].add_quantity(SUPERNOVA.REDSHIFT, redshift,
+                    KILONOVA.CLAIMED_TYPE, claimedtype, secondarysource)
+            catalog.entries[name].add_quantity(KILONOVA.REDSHIFT, redshift,
                                                secondarysource)
 
             with open(fname, 'r') as f:

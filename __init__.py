@@ -1,4 +1,4 @@
-"""The Supernova AstroCatalog.
+"""The Kilonova AstroCatalog.
 """
 
 # from . import supernova

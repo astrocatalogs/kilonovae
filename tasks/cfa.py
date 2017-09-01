@@ -12,7 +12,7 @@ from astropy.time import Time as astrotime
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 from ..utils import clean_snname
 
 ACKN_CFA = ("This research has made use of the CfA Supernova Archive, "
@@ -54,11 +54,11 @@ def do_cfa_photo(catalog):
             url=secondaryurl,
             secondary=True,
             acknowledgment=ACKN_CFA)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                            secondarysource)
 
         year = re.findall(r'\d+', name)[0]
-        catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, year,
+        catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, year,
                                            secondarysource)
 
         eventbands = list(eventparts[1])
@@ -132,8 +132,8 @@ def do_cfa_photo(catalog):
 
             source = catalog.entries[name].add_source(
                 bibcode='2012ApJS..200...12H')
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, 'Ia',
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, 'Ia',
                                                source)
             photodict = {
                 PHOTOMETRY.U_TIME: 'MJD',
@@ -157,7 +157,7 @@ def do_cfa_photo(catalog):
 
             source = catalog.entries[name].add_source(
                 bibcode='2014ApJS..213...19B')
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
             photodict = {
                 PHOTOMETRY.U_TIME: 'MJD',
                 PHOTOMETRY.TIME: row[2],
@@ -200,7 +200,7 @@ def do_cfa_spectra(catalog):
             url=refurl,
             secondary=True,
             acknowledgment=ACKN_CFA)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         for fi, fname in enumerate(
                 sorted(
                     glob(fullpath + '/*'), key=lambda s: s.lower())):
@@ -270,7 +270,7 @@ def do_cfa_spectra(catalog):
             url=refurl,
             secondary=True,
             acknowledgment=ACKN_CFA)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         for fi, fname in enumerate(
                 sorted(
                     glob(fullpath + '/*'), key=lambda s: s.lower())):
@@ -331,7 +331,7 @@ def do_cfa_spectra(catalog):
             url=refurl,
             secondary=True,
             acknowledgment=ACKN_CFA)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         for fi, fname in enumerate(
                 sorted(
                     glob(fullpath + '/*'), key=lambda s: s.lower())):

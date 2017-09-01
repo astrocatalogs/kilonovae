@@ -16,7 +16,7 @@ from astropy.coordinates import SkyCoord as coord
 from astropy.io import fits
 from astropy.table import Table
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 try:  # Python 3.x
     from urllib.parse import quote as urlencode
@@ -106,21 +106,21 @@ def do_mast_spectra(catalog):
 
     objs = []
     for entry in catalog.entries:
-        if SUPERNOVA.DISCOVER_DATE in catalog.entries[entry]:
+        if KILONOVA.DISCOVER_DATE in catalog.entries[entry]:
             dd = catalog.entries[entry][
-                SUPERNOVA.DISCOVER_DATE][0][QUANTITY.VALUE]
+                KILONOVA.DISCOVER_DATE][0][QUANTITY.VALUE]
             try:
                 dt = datetime.strptime(dd, '%Y/%m/%d')
                 if dt < datetime(1997, 1, 1):
                     continue
             except Exception:
                 pass
-        if (SUPERNOVA.RA in catalog.entries[entry] and
-                SUPERNOVA.DEC in catalog.entries[entry]):
+        if (KILONOVA.RA in catalog.entries[entry] and
+                KILONOVA.DEC in catalog.entries[entry]):
             objs.append([
                 entry,
-                catalog.entries[entry][SUPERNOVA.RA][0][QUANTITY.VALUE],
-                catalog.entries[entry][SUPERNOVA.DEC][0][QUANTITY.VALUE]])
+                catalog.entries[entry][KILONOVA.RA][0][QUANTITY.VALUE],
+                catalog.entries[entry][KILONOVA.DEC][0][QUANTITY.VALUE]])
     if not len(objs):
         return
     objs = np.array(objs).T
@@ -198,7 +198,7 @@ def do_mast_spectra(catalog):
         for si in range(len(spectra)):
             spec = spectra[si]
             if all([x not in spec['target_classification'].upper()
-                    for x in ['SUPERNOVA', 'UNIDENTIFIED']]):
+                    for x in ['KILONOVA', 'UNIDENTIFIED']]):
                 continue
 
             obsid = spec['obsid']

@@ -14,7 +14,7 @@ from astropy.cosmology import Planck15 as cosmo
 from astropy.cosmology import z_at_value
 
 from ..constants import CLIGHT, KM
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_cleanup(catalog):
@@ -44,7 +44,7 @@ def do_cleanup(catalog):
         catalog.entries[name].purge_bandless_photometry()
         catalog.entries[name].set_first_max_light()
 
-        if SUPERNOVA.DISCOVER_DATE not in catalog.entries[name]:
+        if KILONOVA.DISCOVER_DATE not in catalog.entries[name]:
             prefixes = ['MLS', 'SSS', 'CSS', 'GRB ']
             for alias in aliases:
                 for prefix in prefixes:
@@ -60,14 +60,14 @@ def do_cleanup(catalog):
                                    ']: ' + discoverdate)
                         source = catalog.entries[name].add_self_source()
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DISCOVER_DATE,
+                            KILONOVA.DISCOVER_DATE,
                             discoverdate,
                             source,
                             derived=True)
                         break
-                if SUPERNOVA.DISCOVER_DATE in catalog.entries[name]:
+                if KILONOVA.DISCOVER_DATE in catalog.entries[name]:
                     break
-        if SUPERNOVA.DISCOVER_DATE not in catalog.entries[name]:
+        if KILONOVA.DISCOVER_DATE not in catalog.entries[name]:
             prefixes = [
                 'ASASSN-', 'PS1-', 'PS1', 'PS', 'iPTF', 'PTF', 'SCP-', 'SNLS-',
                 'SPIRITS', 'LSQ', 'DES', 'SNHiTS', 'Gaia', 'GND', 'GNW', 'GSD',
@@ -84,14 +84,14 @@ def do_cleanup(catalog):
                                    ']: ' + discoverdate)
                         source = catalog.entries[name].add_self_source()
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DISCOVER_DATE,
+                            KILONOVA.DISCOVER_DATE,
                             discoverdate,
                             source,
                             derived=True)
                         break
-                if SUPERNOVA.DISCOVER_DATE in catalog.entries[name]:
+                if KILONOVA.DISCOVER_DATE in catalog.entries[name]:
                     break
-        if SUPERNOVA.DISCOVER_DATE not in catalog.entries[name]:
+        if KILONOVA.DISCOVER_DATE not in catalog.entries[name]:
             prefixes = ['SNF']
             for alias in aliases:
                 for prefix in prefixes:
@@ -107,14 +107,14 @@ def do_cleanup(catalog):
                                    ']: ' + discoverdate)
                         source = catalog.entries[name].add_self_source()
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DISCOVER_DATE,
+                            KILONOVA.DISCOVER_DATE,
                             discoverdate,
                             source,
                             derived=True)
                         break
-                if SUPERNOVA.DISCOVER_DATE in catalog.entries[name]:
+                if KILONOVA.DISCOVER_DATE in catalog.entries[name]:
                     break
-        if SUPERNOVA.DISCOVER_DATE not in catalog.entries[name]:
+        if KILONOVA.DISCOVER_DATE not in catalog.entries[name]:
             prefixes = ['PTFS', 'SNSDF']
             for alias in aliases:
                 for prefix in prefixes:
@@ -129,14 +129,14 @@ def do_cleanup(catalog):
                                    ']: ' + discoverdate)
                         source = catalog.entries[name].add_self_source()
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DISCOVER_DATE,
+                            KILONOVA.DISCOVER_DATE,
                             discoverdate,
                             source,
                             derived=True)
                         break
-                if SUPERNOVA.DISCOVER_DATE in catalog.entries[name]:
+                if KILONOVA.DISCOVER_DATE in catalog.entries[name]:
                     break
-        if SUPERNOVA.DISCOVER_DATE not in catalog.entries[name]:
+        if KILONOVA.DISCOVER_DATE not in catalog.entries[name]:
             prefixes = ['AT', 'SN', 'OGLE-', 'SM ', 'KSN']
             for alias in aliases:
                 for prefix in prefixes:
@@ -156,16 +156,16 @@ def do_cleanup(catalog):
                                        alias + ']: ' + discoverdate)
                             source = catalog.entries[name].add_self_source()
                             catalog.entries[name].add_quantity(
-                                SUPERNOVA.DISCOVER_DATE,
+                                KILONOVA.DISCOVER_DATE,
                                 discoverdate,
                                 source,
                                 derived=True)
                             break
-                if SUPERNOVA.DISCOVER_DATE in catalog.entries[name]:
+                if KILONOVA.DISCOVER_DATE in catalog.entries[name]:
                     break
 
-        if (SUPERNOVA.RA not in catalog.entries[name] or
-                SUPERNOVA.DEC not in catalog.entries[name]):
+        if (KILONOVA.RA not in catalog.entries[name] or
+                KILONOVA.DEC not in catalog.entries[name]):
             prefixes = [
                 'PSN J', 'MASJ', 'CSS', 'SSS', 'MASTER OT J', 'HST J', 'TCP J',
                 'MACS J', '2MASS J', 'EQ J', 'CRTS J', 'SMT J'
@@ -193,26 +193,26 @@ def do_cleanup(catalog):
                             tprint('Added ra/dec from name: ' + ra + ' ' + dec)
                         source = catalog.entries[name].add_self_source()
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.RA, ra, source, derived=True)
+                            KILONOVA.RA, ra, source, derived=True)
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.DEC, dec, source, derived=True)
+                            KILONOVA.DEC, dec, source, derived=True)
                         break
-                if SUPERNOVA.RA in catalog.entries[name]:
+                if KILONOVA.RA in catalog.entries[name]:
                     break
 
-        no_host = (SUPERNOVA.HOST not in catalog.entries[name] or not any([
+        no_host = (KILONOVA.HOST not in catalog.entries[name] or not any([
             x[QUANTITY.VALUE] == 'Milky Way'
-            for x in catalog.entries[name][SUPERNOVA.HOST]
+            for x in catalog.entries[name][KILONOVA.HOST]
         ]))
-        if (SUPERNOVA.RA in catalog.entries[name] and
-                SUPERNOVA.DEC in catalog.entries[name] and no_host):
+        if (KILONOVA.RA in catalog.entries[name] and
+                KILONOVA.DEC in catalog.entries[name] and no_host):
             from astroquery.irsa_dust import IrsaDust
             if name not in catalog.extinctions_dict:
                 try:
                     ra_dec = catalog.entries[name][
-                        SUPERNOVA.RA][0][QUANTITY.VALUE] + \
+                        KILONOVA.RA][0][QUANTITY.VALUE] + \
                         " " + \
-                        catalog.entries[name][SUPERNOVA.DEC][0][QUANTITY.VALUE]
+                        catalog.entries[name][KILONOVA.DEC][0][QUANTITY.VALUE]
                     result = IrsaDust.get_query_table(ra_dec, section='ebv')
                 except (KeyboardInterrupt, SystemExit):
                     raise
@@ -230,15 +230,15 @@ def do_cleanup(catalog):
                     .add_source(bibcode='2011ApJ...737..103S')
                 ])
                 (catalog.entries[name].add_quantity(
-                    SUPERNOVA.EBV,
+                    KILONOVA.EBV,
                     str(catalog.extinctions_dict[name][0]),
                     sources,
                     e_value=str(catalog.extinctions_dict[name][1]),
                     derived=True))
-        if ((SUPERNOVA.HOST in catalog.entries[name] and
-             (SUPERNOVA.HOST_RA not in catalog.entries[name] or
-              SUPERNOVA.HOST_DEC not in catalog.entries[name]))):
-            for host in catalog.entries[name][SUPERNOVA.HOST]:
+        if ((KILONOVA.HOST in catalog.entries[name] and
+             (KILONOVA.HOST_RA not in catalog.entries[name] or
+              KILONOVA.HOST_DEC not in catalog.entries[name]))):
+            for host in catalog.entries[name][KILONOVA.HOST]:
                 alias = host[QUANTITY.VALUE]
                 if ' J' in alias and is_number(alias.split(' J')[-1][:6]):
                     noprefix = alias.split(' J')[-1].split(':')[-1].replace(
@@ -260,18 +260,18 @@ def do_cleanup(catalog):
                                ' ' + hostdec)
                     source = catalog.entries[name].add_self_source()
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.HOST_RA, hostra, source, derived=True)
+                        KILONOVA.HOST_RA, hostra, source, derived=True)
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.HOST_DEC, hostdec, source, derived=True)
+                        KILONOVA.HOST_DEC, hostdec, source, derived=True)
                     break
-                if SUPERNOVA.HOST_RA in catalog.entries[name]:
+                if KILONOVA.HOST_RA in catalog.entries[name]:
                     break
 
-        if (SUPERNOVA.REDSHIFT not in catalog.entries[name] and
-                SUPERNOVA.VELOCITY in catalog.entries[name]):
+        if (KILONOVA.REDSHIFT not in catalog.entries[name] and
+                KILONOVA.VELOCITY in catalog.entries[name]):
             # Find the "best" velocity to use for this
             bestsig = 0
-            for hv in catalog.entries[name][SUPERNOVA.VELOCITY]:
+            for hv in catalog.entries[name][KILONOVA.VELOCITY]:
                 sig = get_sig_digits(hv[QUANTITY.VALUE])
                 if sig > bestsig:
                     besthv = hv[QUANTITY.VALUE]
@@ -282,19 +282,19 @@ def do_cleanup(catalog):
                 source = catalog.entries[name].add_self_source()
                 sources = uniq_cdl([source] + bestsrc.split(','))
                 (catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT,
+                    KILONOVA.REDSHIFT,
                     pretty_num(
                         sqrt((1. + voc) / (1. - voc)) - 1., sig=bestsig),
                     sources,
                     kind='heliocentric',
                     derived=True))
-        if (SUPERNOVA.REDSHIFT not in catalog.entries[name] and
+        if (KILONOVA.REDSHIFT not in catalog.entries[name] and
                 len(catalog.nedd_dict) > 0 and
-                SUPERNOVA.HOST in catalog.entries[name]):
+                KILONOVA.HOST in catalog.entries[name]):
             reference = "NED-D"
             refurl = "http://ned.ipac.caltech.edu/Library/Distances/"
             refbib = "1991ASSL..171...89H"
-            for host in catalog.entries[name][SUPERNOVA.HOST]:
+            for host in catalog.entries[name][KILONOVA.HOST]:
                 if host[QUANTITY.VALUE] in catalog.nedd_dict:
                     source = catalog.entries[name].add_source(
                         bibcode='2016A&A...594A..13P')
@@ -308,17 +308,17 @@ def do_cleanup(catalog):
                     redshift = pretty_num(
                         redz, sig=get_sig_digits(str(meddist)))
                     catalog.entries[name].add_quantity(
-                        [SUPERNOVA.REDSHIFT, SUPERNOVA.HOST_REDSHIFT],
+                        [KILONOVA.REDSHIFT, KILONOVA.HOST_REDSHIFT],
                         redshift,
                         uniq_cdl([source, secondarysource]),
                         kind='host',
                         derived=True)
-        if (SUPERNOVA.MAX_ABS_MAG not in catalog.entries[name] and
-                SUPERNOVA.MAX_APP_MAG in catalog.entries[name] and
-                SUPERNOVA.LUM_DIST in catalog.entries[name]):
+        if (KILONOVA.MAX_ABS_MAG not in catalog.entries[name] and
+                KILONOVA.MAX_APP_MAG in catalog.entries[name] and
+                KILONOVA.LUM_DIST in catalog.entries[name]):
             # Find the "best" distance to use for this
             bestsig = 0
-            for ld in catalog.entries[name][SUPERNOVA.LUM_DIST]:
+            for ld in catalog.entries[name][KILONOVA.LUM_DIST]:
                 sig = get_sig_digits(ld[QUANTITY.VALUE])
                 if sig > bestsig:
                     bestld = ld[QUANTITY.VALUE]
@@ -330,19 +330,19 @@ def do_cleanup(catalog):
                 bestldz = z_at_value(cosmo.luminosity_distance,
                                      float(bestld) * un.Mpc)
                 pnum = (
-                    float(catalog.entries[name][SUPERNOVA.MAX_APP_MAG][0][
+                    float(catalog.entries[name][KILONOVA.MAX_APP_MAG][0][
                         QUANTITY.VALUE]) - 5.0 *
                     (log10(float(bestld) * 1.0e6) - 1.0
                      ) + 2.5 * log10(1.0 + bestldz))
                 pnum = pretty_num(pnum, sig=bestsig + 1)
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.MAX_ABS_MAG, pnum, sources, derived=True)
-        if (SUPERNOVA.MAX_VISUAL_ABS_MAG not in catalog.entries[name] and
-                SUPERNOVA.MAX_VISUAL_APP_MAG in catalog.entries[name] and
-                SUPERNOVA.LUM_DIST in catalog.entries[name]):
+                    KILONOVA.MAX_ABS_MAG, pnum, sources, derived=True)
+        if (KILONOVA.MAX_VISUAL_ABS_MAG not in catalog.entries[name] and
+                KILONOVA.MAX_VISUAL_APP_MAG in catalog.entries[name] and
+                KILONOVA.LUM_DIST in catalog.entries[name]):
             # Find the "best" distance to use for this
             bestsig = 0
-            for ld in catalog.entries[name][SUPERNOVA.LUM_DIST]:
+            for ld in catalog.entries[name][KILONOVA.LUM_DIST]:
                 sig = get_sig_digits(ld[QUANTITY.VALUE])
                 if sig > bestsig:
                     bestld = ld[QUANTITY.VALUE]
@@ -354,12 +354,12 @@ def do_cleanup(catalog):
                 # FIX: what's happening here?!
                 pnum = (
                     float(catalog.entries[name][
-                        SUPERNOVA.MAX_VISUAL_APP_MAG][0][QUANTITY.VALUE]) -
+                        KILONOVA.MAX_VISUAL_APP_MAG][0][QUANTITY.VALUE]) -
                     5.0 * (log10(float(bestld) * 1.0e6) - 1.0))
                 pnum = pretty_num(pnum, sig=bestsig + 1)
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.MAX_VISUAL_ABS_MAG, pnum, sources, derived=True)
-        if SUPERNOVA.REDSHIFT in catalog.entries[name]:
+                    KILONOVA.MAX_VISUAL_ABS_MAG, pnum, sources, derived=True)
+        if KILONOVA.REDSHIFT in catalog.entries[name]:
             # Find the "best" redshift to use for this
             bestz, bestkind, bestsig, bestsrc = catalog.entries[
                 name].get_best_redshift()
@@ -369,20 +369,20 @@ def do_cleanup(catalog):
                 except Exception:
                     print(catalog.entries[name])
                     raise
-                if SUPERNOVA.VELOCITY not in catalog.entries[name]:
+                if KILONOVA.VELOCITY not in catalog.entries[name]:
                     source = catalog.entries[name].add_self_source()
                     # FIX: what's happening here?!
                     pnum = CLIGHT / KM * \
                         ((bestz + 1.)**2. - 1.) / ((bestz + 1.)**2. + 1.)
                     pnum = pretty_num(pnum, sig=bestsig)
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.VELOCITY,
+                        KILONOVA.VELOCITY,
                         pnum,
                         source,
-                        kind=(SUPERNOVA.VELOCITY.kind_preference[bestkind]
+                        kind=(KILONOVA.VELOCITY.kind_preference[bestkind]
                               if bestkind else ''))
                 if bestz > 0.:
-                    if SUPERNOVA.LUM_DIST not in catalog.entries[name]:
+                    if KILONOVA.LUM_DIST not in catalog.entries[name]:
                         dl = cosmo.luminosity_distance(bestz)
                         sources = [
                             catalog.entries[name].add_self_source(),
@@ -391,45 +391,45 @@ def do_cleanup(catalog):
                         ]
                         sources = uniq_cdl(sources + bestsrc.split(','))
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.LUM_DIST,
+                            KILONOVA.LUM_DIST,
                             pretty_num(
                                 dl.value, sig=bestsig + 1),
                             sources,
-                            kind=(SUPERNOVA.LUM_DIST.kind_preference[bestkind]
+                            kind=(KILONOVA.LUM_DIST.kind_preference[bestkind]
                                   if bestkind else ''),
                             derived=True)
-                        if (SUPERNOVA.MAX_ABS_MAG not in
-                            catalog.entries[name] and SUPERNOVA.MAX_APP_MAG in
+                        if (KILONOVA.MAX_ABS_MAG not in
+                            catalog.entries[name] and KILONOVA.MAX_APP_MAG in
                                 catalog.entries[name]):
                             source = catalog.entries[name].add_self_source()
                             pnum = pretty_num(
                                 float(catalog.entries[name][
-                                    SUPERNOVA.MAX_APP_MAG][0][QUANTITY.VALUE])
+                                    KILONOVA.MAX_APP_MAG][0][QUANTITY.VALUE])
                                 - 5.0 * (log10(dl.to('pc').value) - 1.0
                                          ) + 2.5 * log10(1.0 + bestz),
                                 sig=bestsig + 1)
                             catalog.entries[name].add_quantity(
-                                SUPERNOVA.MAX_ABS_MAG,
+                                KILONOVA.MAX_ABS_MAG,
                                 pnum,
                                 sources,
                                 derived=True)
-                        if (SUPERNOVA.MAX_VISUAL_ABS_MAG not in
+                        if (KILONOVA.MAX_VISUAL_ABS_MAG not in
                                 catalog.entries[name] and
-                                SUPERNOVA.MAX_VISUAL_APP_MAG in
+                                KILONOVA.MAX_VISUAL_APP_MAG in
                                 catalog.entries[name]):
                             source = catalog.entries[name].add_self_source()
                             pnum = pretty_num(
                                 float(catalog.entries[name][
-                                    SUPERNOVA.MAX_VISUAL_APP_MAG][0][
+                                    KILONOVA.MAX_VISUAL_APP_MAG][0][
                                         QUANTITY.VALUE]) - 5.0 *
                                 (log10(dl.to('pc').value) - 1.0),
                                 sig=bestsig + 1)
                             catalog.entries[name].add_quantity(
-                                SUPERNOVA.MAX_VISUAL_ABS_MAG,
+                                KILONOVA.MAX_VISUAL_ABS_MAG,
                                 pnum,
                                 sources,
                                 derived=True)
-                    if SUPERNOVA.COMOVING_DIST not in catalog.entries[name]:
+                    if KILONOVA.COMOVING_DIST not in catalog.entries[name]:
                         cd = cosmo.comoving_distance(bestz)
                         sources = [
                             catalog.entries[name].add_self_source(),
@@ -438,35 +438,35 @@ def do_cleanup(catalog):
                         ]
                         sources = uniq_cdl(sources + bestsrc.split(','))
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.COMOVING_DIST,
+                            KILONOVA.COMOVING_DIST,
                             pretty_num(
                                 cd.value, sig=bestsig),
                             sources,
                             derived=True)
-        if SUPERNOVA.HOST_REDSHIFT in catalog.entries[name]:
+        if KILONOVA.HOST_REDSHIFT in catalog.entries[name]:
             # Find the "best" redshift to use for this
             bestz, bestkind, bestsig, bestsrc = catalog.entries[
-                name].get_best_redshift(SUPERNOVA.HOST_REDSHIFT)
+                name].get_best_redshift(KILONOVA.HOST_REDSHIFT)
             if bestsig > 0:
                 try:
                     bestz = float(bestz)
                 except Exception:
                     print(catalog.entries[name])
                     raise
-                if SUPERNOVA.HOST_VELOCITY not in catalog.entries[name]:
+                if KILONOVA.HOST_VELOCITY not in catalog.entries[name]:
                     source = catalog.entries[name].add_self_source()
                     # FIX: what's happening here?!
                     pnum = CLIGHT / KM * \
                         ((bestz + 1.)**2. - 1.) / ((bestz + 1.)**2. + 1.)
                     pnum = pretty_num(pnum, sig=bestsig)
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.HOST_VELOCITY,
+                        KILONOVA.HOST_VELOCITY,
                         pnum,
                         source,
-                        kind=(SUPERNOVA.HOST_VELOCITY.kind_preference[bestkind]
+                        kind=(KILONOVA.HOST_VELOCITY.kind_preference[bestkind]
                               if bestkind else ''))
                 if bestz > 0.:
-                    if SUPERNOVA.HOST_LUM_DIST not in catalog.entries[name]:
+                    if KILONOVA.HOST_LUM_DIST not in catalog.entries[name]:
                         dl = cosmo.luminosity_distance(bestz)
                         sources = [
                             catalog.entries[name].add_self_source(),
@@ -475,14 +475,14 @@ def do_cleanup(catalog):
                         ]
                         sources = uniq_cdl(sources + bestsrc.split(','))
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.HOST_LUM_DIST,
+                            KILONOVA.HOST_LUM_DIST,
                             pretty_num(
                                 dl.value, sig=bestsig + 1),
                             sources,
-                            kind=(SUPERNOVA.HOST_LUM_DIST.kind_preference[
+                            kind=(KILONOVA.HOST_LUM_DIST.kind_preference[
                                 bestkind] if bestkind else ''),
                             derived=True)
-                    if SUPERNOVA.HOST_COMOVING_DIST not in catalog.entries[
+                    if KILONOVA.HOST_COMOVING_DIST not in catalog.entries[
                             name]:
                         cd = cosmo.comoving_distance(bestz)
                         sources = [
@@ -492,7 +492,7 @@ def do_cleanup(catalog):
                         ]
                         sources = uniq_cdl(sources + bestsrc.split(','))
                         catalog.entries[name].add_quantity(
-                            SUPERNOVA.HOST_COMOVING_DIST,
+                            KILONOVA.HOST_COMOVING_DIST,
                             pretty_num(
                                 cd.value, sig=bestsig),
                             sources,
@@ -500,21 +500,21 @@ def do_cleanup(catalog):
         if all([
                 x in catalog.entries[name]
                 for x in [
-                    SUPERNOVA.RA, SUPERNOVA.DEC, SUPERNOVA.HOST_RA,
-                    SUPERNOVA.HOST_DEC
+                    KILONOVA.RA, KILONOVA.DEC, KILONOVA.HOST_RA,
+                    KILONOVA.HOST_DEC
                 ]
         ]):
             # For now just using first coordinates that appear in entry
             try:
                 c1 = coord(
-                    ra=catalog.entries[name][SUPERNOVA.RA][0][QUANTITY.VALUE],
-                    dec=catalog.entries[name][SUPERNOVA.DEC][0][
+                    ra=catalog.entries[name][KILONOVA.RA][0][QUANTITY.VALUE],
+                    dec=catalog.entries[name][KILONOVA.DEC][0][
                         QUANTITY.VALUE],
                     unit=(un.hourangle, un.deg))
                 c2 = coord(
-                    ra=catalog.entries[name][SUPERNOVA.HOST_RA][0][
+                    ra=catalog.entries[name][KILONOVA.HOST_RA][0][
                         QUANTITY.VALUE],
-                    dec=catalog.entries[name][SUPERNOVA.HOST_DEC][0][
+                    dec=catalog.entries[name][KILONOVA.HOST_DEC][0][
                         QUANTITY.VALUE],
                     unit=(un.hourangle, un.deg))
             except (KeyboardInterrupt, SystemExit):
@@ -524,41 +524,41 @@ def do_cleanup(catalog):
             else:
                 sources = uniq_cdl(
                     [catalog.entries[name].add_self_source()] + catalog.
-                    entries[name][SUPERNOVA.RA][0][QUANTITY.SOURCE].split(',')
-                    + catalog.entries[name][SUPERNOVA.DEC][0][QUANTITY.SOURCE]
-                    .split(',') + catalog.entries[name][SUPERNOVA.HOST_RA][0][
+                    entries[name][KILONOVA.RA][0][QUANTITY.SOURCE].split(',')
+                    + catalog.entries[name][KILONOVA.DEC][0][QUANTITY.SOURCE]
+                    .split(',') + catalog.entries[name][KILONOVA.HOST_RA][0][
                         QUANTITY.SOURCE].split(',') + catalog.entries[name][
-                            SUPERNOVA.HOST_DEC][0][QUANTITY.SOURCE].split(','))
-                if SUPERNOVA.HOST_OFFSET_ANG not in catalog.entries[name]:
+                            KILONOVA.HOST_DEC][0][QUANTITY.SOURCE].split(','))
+                if KILONOVA.HOST_OFFSET_ANG not in catalog.entries[name]:
                     hosa = Decimal(c1.separation(c2).arcsecond)
                     hosa = pretty_num(hosa)
                     catalog.entries[name].add_quantity(
-                        SUPERNOVA.HOST_OFFSET_ANG,
+                        KILONOVA.HOST_OFFSET_ANG,
                         hosa,
                         sources,
                         derived=True,
                         u_value='arcseconds')
-                if (SUPERNOVA.COMOVING_DIST in catalog.entries[name] and
-                        SUPERNOVA.REDSHIFT in catalog.entries[name] and
-                        SUPERNOVA.HOST_OFFSET_DIST not in
+                if (KILONOVA.COMOVING_DIST in catalog.entries[name] and
+                        KILONOVA.REDSHIFT in catalog.entries[name] and
+                        KILONOVA.HOST_OFFSET_DIST not in
                         catalog.entries[name]):
                     offsetsig = get_sig_digits(catalog.entries[name][
-                        SUPERNOVA.HOST_OFFSET_ANG][0][QUANTITY.VALUE])
+                        KILONOVA.HOST_OFFSET_ANG][0][QUANTITY.VALUE])
                     sources = uniq_cdl(
                         sources.split(',') + (catalog.entries[name][
-                            SUPERNOVA.COMOVING_DIST][0][QUANTITY.SOURCE]).
-                        split(',') + (catalog.entries[name][SUPERNOVA.REDSHIFT]
+                            KILONOVA.COMOVING_DIST][0][QUANTITY.SOURCE]).
+                        split(',') + (catalog.entries[name][KILONOVA.REDSHIFT]
                                       [0][QUANTITY.SOURCE]).split(','))
                     (catalog.entries[name].add_quantity(
-                        SUPERNOVA.HOST_OFFSET_DIST,
+                        KILONOVA.HOST_OFFSET_DIST,
                         pretty_num(
                             float(catalog.entries[name][
-                                SUPERNOVA.HOST_OFFSET_ANG][0][QUANTITY.VALUE])
+                                KILONOVA.HOST_OFFSET_ANG][0][QUANTITY.VALUE])
                             / 3600. * (pi / 180.) *
                             float(catalog.entries[name][
-                                SUPERNOVA.COMOVING_DIST][0][QUANTITY.VALUE]) *
+                                KILONOVA.COMOVING_DIST][0][QUANTITY.VALUE]) *
                             1000. / (1.0 + float(catalog.entries[name][
-                                SUPERNOVA.REDSHIFT][0][QUANTITY.VALUE])),
+                                KILONOVA.REDSHIFT][0][QUANTITY.VALUE])),
                             sig=offsetsig),
                         sources))
 

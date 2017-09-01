@@ -12,7 +12,7 @@ from astrocats.catalog.quantity import QUANTITY
 from astrocats.catalog.utils import make_date_string, pbar, pbar_strings
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_sdss_photo(catalog):
@@ -40,14 +40,14 @@ def do_sdss_photo(catalog):
         rows = list(csv.reader(f.read().splitlines()[1:], delimiter=' '))
         ignored_cids = []
         columns = {
-            SUPERNOVA.RA: 1,
-            SUPERNOVA.DEC: 2,
-            SUPERNOVA.ALIAS: 4,
-            SUPERNOVA.CLAIMED_TYPE: 5,
-            SUPERNOVA.REDSHIFT: 11,
-            SUPERNOVA.MAX_DATE: 21,
-            SUPERNOVA.HOST_RA: 99,
-            SUPERNOVA.HOST_DEC: 100
+            KILONOVA.RA: 1,
+            KILONOVA.DEC: 2,
+            KILONOVA.ALIAS: 4,
+            KILONOVA.CLAIMED_TYPE: 5,
+            KILONOVA.REDSHIFT: 11,
+            KILONOVA.MAX_DATE: 21,
+            KILONOVA.HOST_RA: 99,
+            KILONOVA.HOST_DEC: 100
         }
         colnums = {v: k for k, v in columns.items()}
 
@@ -67,8 +67,8 @@ def do_sdss_photo(catalog):
             name = ''
 
             # Check if type is non-SNe first
-            ct = row[columns[SUPERNOVA.CLAIMED_TYPE]]
-            al = row[columns[SUPERNOVA.ALIAS]]
+            ct = row[columns[KILONOVA.CLAIMED_TYPE]]
+            al = row[columns[KILONOVA.ALIAS]]
             if ct in ['AGN', 'Variable', 'Unknown'] and not al:
                 catalog.log.info('`{}` is not a SN, not '
                                  'adding.'.format(row[0]))
@@ -83,7 +83,7 @@ def do_sdss_photo(catalog):
 
             # Add host name
             if row[0] in hostdict:
-                catalog.entries[name].add_quantity(SUPERNOVA.HOST,
+                catalog.entries[name].add_quantity(KILONOVA.HOST,
                                                    hostdict[row[0]], source)
 
             # Add other metadata
@@ -96,26 +96,26 @@ def do_sdss_photo(catalog):
                 if not val:
                     continue
                 kwargs = {}
-                if key == SUPERNOVA.ALIAS:
+                if key == KILONOVA.ALIAS:
                     val = 'SN' + val
                 elif key in [
-                        SUPERNOVA.RA, SUPERNOVA.DEC, SUPERNOVA.HOST_RA,
-                        SUPERNOVA.HOST_DEC
+                        KILONOVA.RA, KILONOVA.DEC, KILONOVA.HOST_RA,
+                        KILONOVA.HOST_DEC
                 ]:
                     kwargs = {QUANTITY.U_VALUE: 'floatdegrees'}
-                    if key in [SUPERNOVA.RA, SUPERNOVA.HOST_RA]:
+                    if key in [KILONOVA.RA, KILONOVA.HOST_RA]:
                         fval = float(val)
                         if fval < 0.0:
                             val = str(Decimal(360) + Decimal(fval))
-                elif key == SUPERNOVA.CLAIMED_TYPE:
+                elif key == KILONOVA.CLAIMED_TYPE:
                     val = val.lstrip('pz').replace('SN', '')
-                elif key == SUPERNOVA.REDSHIFT:
+                elif key == KILONOVA.REDSHIFT:
                     kwargs[QUANTITY.KIND] = 'spectroscopic'
                     if float(val) < -1.0:
                         continue
                     if float(row[ic + 1]) > 0.0:
                         kwargs[QUANTITY.E_VALUE] = row[ic + 1]
-                elif key == SUPERNOVA.MAX_DATE:
+                elif key == KILONOVA.MAX_DATE:
                     dt = astrotime(float(val), format='mjd').datetime
                     val = make_date_string(dt.year, dt.month, dt.day)
                 catalog.entries[name].add_quantity(key, val, source, **kwargs)
@@ -160,16 +160,16 @@ def do_sdss_photo(catalog):
                 oname = 'SDSS-II SN ' + row[3]
                 (name, source) = catalog.new_entry(oname, bibcode=bibcode)
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.RA, row[-4], source, u_value='floatdegrees')
+                    KILONOVA.RA, row[-4], source, u_value='floatdegrees')
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.DEC, row[-2], source, u_value='floatdegrees')
+                    KILONOVA.DEC, row[-2], source, u_value='floatdegrees')
             if hasred and rr == 1:
                 error = row[4] if float(row[4]) >= 0.0 else ''
                 val = row[2]
                 if float(val) < -1.0:
                     continue
                 (catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT,
+                    KILONOVA.REDSHIFT,
                     val,
                     source,
                     e_value=error,

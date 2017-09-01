@@ -1,29 +1,22 @@
 {
     "output":[
-        "sne-pre-1990",
-        "sne-1990-1999",
-        "sne-2000-2004",
-        "sne-2005-2009",
-        "sne-2010-2014",
-        "sne-2015-2019"
+        "kne-2000-2029"
     ],
     "boneyard":[
-        "sne-boneyard"
+        "kne-boneyard"
     ],
     "external":[
-        "sne-external",
-        "sne-external-radio",
-        "sne-external-WISEREP",
-        "sne-external-xray",
-        "sne-external-spectra",
-        "sne-external-fits-spectra",
-        "sne-external-models"
+        "kne-external",
+        "kne-external-radio",
+        "kne-external-WISEREP",
+        "kne-external-xray",
+        "kne-external-spectra",
+        "kne-external-fits-spectra",
+        "kne-external-models"
     ],
     "private":[
-        "sne-private-iair-arcavi",
-        "sne-private-matt-nicholl"
     ],
     "internal":[
-        "sne-internal"
+        "kne-internal"
     ]
 }

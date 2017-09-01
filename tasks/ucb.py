@@ -12,7 +12,7 @@ from astrocats.catalog.photometry import PHOTOMETRY
 from astrocats.catalog.utils import (get_sig_digits, is_number, pbar,
                                      pretty_num, uniq_cdl)
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_ucb_photo(catalog):
@@ -36,10 +36,10 @@ def do_ucb_photo(catalog):
 
         sec_source = catalog.entries[name].add_source(
             name=sec_ref, url=sec_refurl, bibcode=sec_refbib, secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, oldname,
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, oldname,
                                            sec_source)
         if phot['AltObjName']:
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS,
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS,
                                                phot['AltObjName'], sec_source)
         sources = [sec_source]
         if phot['Reference']:
@@ -50,15 +50,15 @@ def do_ucb_photo(catalog):
         if phot['Type'] and phot['Type'].strip() != 'NoMatch':
             for ct in phot['Type'].strip().split(','):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, ct.replace('-norm', '').strip(),
+                    KILONOVA.CLAIMED_TYPE, ct.replace('-norm', '').strip(),
                     sources)
         if phot['DiscDate']:
             catalog.entries[name].add_quantity(
-                SUPERNOVA.DISCOVER_DATE, phot['DiscDate'].replace('-', '/'),
+                KILONOVA.DISCOVER_DATE, phot['DiscDate'].replace('-', '/'),
                 sources)
         if phot['HostName']:
             host = urllib.parse.unquote(phot['HostName']).replace('*', '')
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, host, sources)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, host, sources)
         filename = phot['Filename'] if phot['Filename'] else ''
 
         if not filename:
@@ -130,7 +130,7 @@ def do_ucb_spectra(catalog):
             url=sec_refurl,
             bibcode=sec_refbib,
             secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, sec_source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, sec_source)
         sources = [sec_source]
         if spectrum['Reference']:
             sources += [catalog.entries[name]
@@ -140,15 +140,15 @@ def do_ucb_spectra(catalog):
         if spectrum['Type'] and spectrum['Type'].strip() != 'NoMatch':
             for ct in spectrum['Type'].strip().split(','):
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, ct.replace('-norm', '').strip(),
+                    KILONOVA.CLAIMED_TYPE, ct.replace('-norm', '').strip(),
                     sources)
         if spectrum['DiscDate']:
             ddate = spectrum['DiscDate'].replace('-', '/')
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, ddate,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, ddate,
                                                sources)
         if spectrum['HostName']:
             host = urllib.parse.unquote(spectrum['HostName']).replace('*', '')
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, host, sources)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, host, sources)
         if spectrum['UT_Date']:
             epoch = str(spectrum['UT_Date'])
             year = epoch[:4]

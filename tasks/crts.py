@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_crts(catalog):
@@ -96,17 +96,17 @@ def do_crts(catalog):
                 name, srcname='Catalina Sky Survey',
                 bibcode='2009ApJ...696..870D',
                 url='http://nesssi.cacr.caltech.edu/catalina/AllSN.html')
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
             for alias in validaliases:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.ALIAS, alias, source)
+                    KILONOVA.ALIAS, alias, source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.RA, ra.strip(), source, u_value='floatdegrees')
+                KILONOVA.RA, ra.strip(), source, u_value='floatdegrees')
             catalog.entries[name].add_quantity(
-                SUPERNOVA.DEC, dec.strip(), source, u_value='floatdegrees')
-            if SUPERNOVA.CLAIMED_TYPE not in catalog.entries[name]:
+                KILONOVA.DEC, dec.strip(), source, u_value='floatdegrees')
+            if KILONOVA.CLAIMED_TYPE not in catalog.entries[name]:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, 'Candidate', source)
+                    KILONOVA.CLAIMED_TYPE, 'Candidate', source)
 
             if hostmag:
                 # 1.0 magnitude error based on Drake 2009 assertion that SN are

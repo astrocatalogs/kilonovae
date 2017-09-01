@@ -14,7 +14,7 @@ from astrocats.catalog.photometry import PHOTOMETRY
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_itep(catalog):
@@ -54,11 +54,11 @@ def do_itep(catalog):
             sec_source = catalog.entries[name].add_source(
                 name=sec_reference, url=sec_refurl, secondary=True)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.ALIAS, oldname, sec_source)
+                KILONOVA.ALIAS, oldname, sec_source)
 
             year = re.findall(r'\d+', name)[0]
             catalog.entries[name].add_quantity(
-                SUPERNOVA.DISCOVER_DATE, year, sec_source)
+                KILONOVA.DISCOVER_DATE, year, sec_source)
         if reference in refrepf:
             bibcode = unescape(refrepf[reference])
             source = catalog.entries[name].add_source(bibcode=bibcode)

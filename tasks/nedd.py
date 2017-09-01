@@ -13,7 +13,7 @@ from astropy.cosmology import z_at_value
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 from ..utils import host_clean, name_clean
 
 
@@ -64,10 +64,10 @@ def do_nedd(catalog):
             if name == snname:
                 if redshift:
                     catalog.entries[snname].add_quantity(
-                        SUPERNOVA.REDSHIFT, redshift, sources)
+                        KILONOVA.REDSHIFT, redshift, sources)
                 if dist:
                     catalog.entries[snname].add_quantity(
-                        SUPERNOVA.COMOVING_DIST, dist, sources)
+                        KILONOVA.COMOVING_DIST, dist, sources)
                     if not redshift:
                         try:
                             zatval = z_at_value(cosmo.comoving_distance,
@@ -84,11 +84,11 @@ def do_nedd(catalog):
                             combsources = uniq_cdl(sources.split(',') +
                                                    [cosmosource])
                             catalog.entries[snname].add_quantity(
-                                SUPERNOVA.REDSHIFT, redshift, combsources,
+                                KILONOVA.REDSHIFT, redshift, combsources,
                                 derived=True)
             if cleanhost:
                 catalog.entries[snname].add_quantity(
-                    SUPERNOVA.HOST, cleanhost, sources)
+                    KILONOVA.HOST, cleanhost, sources)
             if catalog.args.update and olddistname != distname:
                 catalog.journal_entries()
         olddistname = distname

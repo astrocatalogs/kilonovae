@@ -6,7 +6,7 @@ import os
 from astrocats.catalog.utils import make_date_string, pbar
 from astropy.time import Time as astrotime
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_psst(catalog):
@@ -24,10 +24,10 @@ def do_psst(catalog):
             (name, source) = catalog.new_entry(
                 row[0], bibcode='2016MNRAS.462.4094S')
             catalog.entries[name].add_quantity(
-                SUPERNOVA.CLAIMED_TYPE, row[3].replace('SN', '').strip('() '),
+                KILONOVA.CLAIMED_TYPE, row[3].replace('SN', '').strip('() '),
                 source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT,
+                KILONOVA.REDSHIFT,
                 row[5].strip('() '),
                 source,
                 kind='spectroscopic')
@@ -43,11 +43,11 @@ def do_psst(catalog):
                 continue
             (name, source) = catalog.new_entry(
                 row[0], bibcode='2016MNRAS.462.4094S')
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, row[1], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.RA, row[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, row[2], source)
             mldt = astrotime(float(row[4]), format='mjd').datetime
             discoverdate = make_date_string(mldt.year, mldt.month, mldt.day)
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE,
                                                discoverdate, source)
 
     catalog.journal_entries()
@@ -64,18 +64,18 @@ def do_psst(catalog):
                 continue
             (name, source) = catalog.new_entry(
                 row[0], bibcode='2016ApJ...827L..40S')
-            catalog.entries[name].add_quantity(SUPERNOVA.RA, row[1], source)
-            catalog.entries[name].add_quantity(SUPERNOVA.DEC, row[2], source)
+            catalog.entries[name].add_quantity(KILONOVA.RA, row[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.DEC, row[2], source)
             mldt = astrotime(float(row[3]), format='mjd').datetime
             discoverdate = make_date_string(mldt.year, mldt.month, mldt.day)
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE,
                                                discoverdate, source)
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, row[6],
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, row[6],
                                                source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT, row[7], source, kind='spectroscopic')
+                KILONOVA.REDSHIFT, row[7], source, kind='spectroscopic')
             for alias in [x.strip() for x in row[8].split(',')]:
-                catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, alias,
+                catalog.entries[name].add_quantity(KILONOVA.ALIAS, alias,
                                                    source)
 
     catalog.journal_entries()

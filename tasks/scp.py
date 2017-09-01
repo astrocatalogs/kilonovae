@@ -5,7 +5,7 @@ import os
 
 from astrocats.catalog.utils import pbar
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_scp(catalog):
@@ -22,16 +22,16 @@ def do_scp(catalog):
                   .add_source(name='Supernova Cosmology Project',
                               url=('http://supernova.lbl.gov/'
                                    '2009ClusterSurvey/')))
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         if row[1]:
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, row[1], source)
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, row[1], source)
         if row[2]:
-            kind = 'spectroscopic' if row[3] == 'sn' else SUPERNOVA.HOST
+            kind = 'spectroscopic' if row[3] == 'sn' else KILONOVA.HOST
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT, row[2], source, kind=kind)
+                KILONOVA.REDSHIFT, row[2], source, kind=kind)
         if row[4]:
             catalog.entries[name].add_quantity(
-                SUPERNOVA.REDSHIFT, row[2], source, kind='cluster')
+                KILONOVA.REDSHIFT, row[2], source, kind='cluster')
         if row[6]:
             claimedtype = row[6].replace('SN ', '')
             kind = ('spectroscopic/light curve' if 'a' in row[7] and 'c' in
@@ -41,7 +41,7 @@ def do_scp(catalog):
                     else '')
             if claimedtype != '?':
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.CLAIMED_TYPE, claimedtype, source, kind=kind)
+                    KILONOVA.CLAIMED_TYPE, claimedtype, source, kind=kind)
 
     catalog.journal_entries()
     return

@@ -8,7 +8,7 @@ from astrocats.catalog.utils import jd_to_mjd, pbar
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_gaia(catalog):
@@ -29,23 +29,23 @@ def do_gaia(catalog):
             continue
         name = catalog.add_entry(row[0])
         source = catalog.entries[name].add_source(name=reference, url=refurl)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, source)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, source)
         year = '20' + re.findall(r'\d+', row[0])[0]
-        catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, year,
+        catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, year,
                                            source)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA, row[2], source, u_value='floatdegrees')
+            KILONOVA.RA, row[2], source, u_value='floatdegrees')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC, row[3], source, u_value='floatdegrees')
+            KILONOVA.DEC, row[3], source, u_value='floatdegrees')
         if row[7] and row[7] != 'unknown':
             type = row[7].replace('SNe', '').replace('SN', '').strip()
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, type,
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, type,
                                                source)
         elif any([
                 xx in row[9].upper()
                 for xx in ['SN CANDIATE', 'CANDIDATE SN', 'HOSTLESS SN']
         ]):
-            catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE,
+            catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE,
                                                'Candidate', source)
 
         if ('aka' in row[9].replace('gakaxy', 'galaxy').lower() and
@@ -61,7 +61,7 @@ def do_gaia(catalog):
                     if alias[:6] == 'ASASSN' and alias[6] != '-':
                         alias = 'ASASSN-' + alias[6:]
                     if alias.lower() != 'master':
-                        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS,
+                        catalog.entries[name].add_quantity(KILONOVA.ALIAS,
                                                            alias, source)
                     break
 

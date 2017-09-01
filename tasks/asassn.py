@@ -9,7 +9,7 @@ from astrocats.catalog.utils import jd_to_mjd, pbar
 from astropy.io.ascii import read
 from bs4 import BeautifulSoup
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_asassn(catalog):
@@ -78,23 +78,23 @@ def do_asassn(catalog):
                              typelink.split('=')[-1], url=typelink)))
         sources = ','.join(sources)
         typesources = ','.join(typesources)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name, sources)
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, name, sources)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DISCOVER_DATE, discdate, sources)
-        catalog.entries[name].add_quantity(SUPERNOVA.RA, ra, sources,
+            KILONOVA.DISCOVER_DATE, discdate, sources)
+        catalog.entries[name].add_quantity(KILONOVA.RA, ra, sources,
                                            u_value='floatdegrees')
-        catalog.entries[name].add_quantity(SUPERNOVA.DEC, dec, sources,
+        catalog.entries[name].add_quantity(KILONOVA.DEC, dec, sources,
                                            u_value='floatdegrees')
         catalog.entries[name].add_quantity(
-            SUPERNOVA.REDSHIFT, redshift, sources)
+            KILONOVA.REDSHIFT, redshift, sources)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.HOST_OFFSET_ANG, hostoff, sources, u_value='arcseconds')
+            KILONOVA.HOST_OFFSET_ANG, hostoff, sources, u_value='arcseconds')
         for ct in claimedtype.split('/'):
             if ct != 'Unk':
-                catalog.entries[name].add_quantity(SUPERNOVA.CLAIMED_TYPE, ct,
+                catalog.entries[name].add_quantity(KILONOVA.CLAIMED_TYPE, ct,
                                                    typesources)
         if host != 'Uncatalogued':
-            catalog.entries[name].add_quantity(SUPERNOVA.HOST, host, sources)
+            catalog.entries[name].add_quantity(KILONOVA.HOST, host, sources)
     catalog.journal_entries()
     return
 

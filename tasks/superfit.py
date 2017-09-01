@@ -9,7 +9,7 @@ from astropy.time import Time as astrotime
 
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_superfit_spectra(catalog):
@@ -58,7 +58,7 @@ def do_superfit_spectra(catalog):
             source = catalog.entries[name].add_source(
                 name='Superfit', url=superfit_url, secondary=True)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.ALIAS, oldname, source)
+                KILONOVA.ALIAS, oldname, source)
 
             with open(sffile) as ff:
                 rows = ff.read().splitlines()

@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from astrocats.catalog.utils import is_number, pbar, round_sig, uniq_cdl
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_cpcs(catalog):
@@ -53,17 +53,17 @@ def do_cpcs(catalog):
             name='Cambridge Photometric Calibration Server',
             url='http://gsaweb.ast.cam.ac.uk/followup/',
             secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, oldname,
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, oldname,
                                            sec_source)
         unit_deg = 'floatdegrees'
         catalog.entries[name].add_quantity(
-            SUPERNOVA.RA,
-            str(alertindex[ii][SUPERNOVA.RA]),
+            KILONOVA.RA,
+            str(alertindex[ii][KILONOVA.RA]),
             sec_source,
             u_value=unit_deg)
         catalog.entries[name].add_quantity(
-            SUPERNOVA.DEC,
-            str(alertindex[ii][SUPERNOVA.DEC]),
+            KILONOVA.DEC,
+            str(alertindex[ii][KILONOVA.DEC]),
             sec_source,
             u_value=unit_deg)
 

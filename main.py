@@ -3,7 +3,7 @@
 
 
 def main(args, clargs, log):
-    from .supernovacatalog import SupernovaCatalog
+    from .supernovacatalog import KilonovaCatalog
     from astrocats.catalog.argshandler import ArgsHandler
 
     # Create an `ArgsHandler` instance with the appropriate argparse machinery
@@ -15,8 +15,8 @@ def main(args, clargs, log):
     if args is None:
         return
 
-    log.debug("Initializing `SupernovaCatalog`")
-    catalog = SupernovaCatalog(args, log)
+    log.debug("Initializing `KilonovaCatalog`")
+    catalog = KilonovaCatalog(args, log)
 
     # Run the subcommand given in `args`
     log.debug("Running subcommand")

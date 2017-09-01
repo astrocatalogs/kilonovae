@@ -16,7 +16,7 @@ from astrocats.catalog.utils import (get_sig_digits, is_number, jd_to_mjd,
                                      pbar, pbar_strings, pretty_num, uniq_cdl)
 from decimal import Decimal
 
-from ..supernova import SUPERNOVA
+from ..kilonova import KILONOVA
 
 
 def do_suspect_photo(catalog):
@@ -61,33 +61,33 @@ def do_suspect_photo(catalog):
         sec_refurl = 'https://www.nhn.ou.edu/~suspect/'
         sec_source = catalog.entries[name].add_source(
             name=sec_ref, url=sec_refurl, secondary=True)
-        catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, oldname,
+        catalog.entries[name].add_quantity(KILONOVA.ALIAS, oldname,
                                            sec_source)
 
         if ei == 1:
             year = re.findall(r'\d+', name)[0]
-            catalog.entries[name].add_quantity(SUPERNOVA.DISCOVER_DATE, year,
+            catalog.entries[name].add_quantity(KILONOVA.DISCOVER_DATE, year,
                                                sec_source)
             catalog.entries[name].add_quantity(
-                SUPERNOVA.HOST, names[1].split(':')[1].strip(), sec_source)
+                KILONOVA.HOST, names[1].split(':')[1].strip(), sec_source)
 
             redshifts = bandsoup.body.findAll(text=re.compile('Redshift'))
             if redshifts:
                 catalog.entries[name].add_quantity(
-                    SUPERNOVA.REDSHIFT,
+                    KILONOVA.REDSHIFT,
                     redshifts[0].split(':')[1].strip(), sec_source,
                     kind='heliocentric')
             # hvels = bandsoup.body.findAll(text=re.compile('Heliocentric
             # Velocity'))
             # if hvels:
             #     vel = hvels[0].split(':')[1].strip().split(' ')[0]
-            #     catalog.entries[name].add_quantity(SUPERNOVA.VELOCITY, vel,
+            #     catalog.entries[name].add_quantity(KILONOVA.VELOCITY, vel,
             # sec_source,
             # kind='heliocentric')
             types = bandsoup.body.findAll(text=re.compile('Type'))
 
             catalog.entries[name].add_quantity(
-                SUPERNOVA.CLAIMED_TYPE,
+                KILONOVA.CLAIMED_TYPE,
                 types[0].split(':')[1].strip().split(' ')[0], sec_source)
 
         for r, row in enumerate(bandtable.findAll('tr')):
@@ -158,7 +158,7 @@ def do_suspect_spectra(catalog):
             sec_bibc = '2001AAS...199.8408R'
             sec_source = catalog.entries[name].add_source(
                 name=sec_ref, url=sec_refurl, bibcode=sec_bibc, secondary=True)
-            catalog.entries[name].add_quantity(SUPERNOVA.ALIAS, name,
+            catalog.entries[name].add_quantity(KILONOVA.ALIAS, name,
                                                sec_source)
             fpath = os.path.join(catalog.get_current_task_repo(), 'Suspect',
                                  folder, eventfolder)
