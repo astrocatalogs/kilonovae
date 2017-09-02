@@ -20,7 +20,7 @@ from ..utils import host_clean, name_clean
 def do_nedd(catalog):
     task_str = catalog.get_current_task_str()
     nedd_path = os.path.join(
-        catalog.get_current_task_repo(), 'NED26.10.1-D-13.1.0-20160930.csv')
+        catalog.get_current_task_repo(), 'NED27.02.1-D-14.1.0-20170227.csv')
 
     f = open(nedd_path, 'r')
 

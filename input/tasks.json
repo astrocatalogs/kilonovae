@@ -179,7 +179,7 @@
     },
     "nedd": {
         "nice_name": "%pre NED-D",
-        "active": false,
+        "active": true,
         "update": false,
         "module": "kilonovae.tasks.nedd",
         "function": "do_nedd",
