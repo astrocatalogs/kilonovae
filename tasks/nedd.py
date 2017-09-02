@@ -52,45 +52,45 @@ def do_nedd(catalog):
             if dist:
                 catalog.nedd_dict.setdefault(
                     cleanhost, []).append(Decimal(dist))
-        if snname and 'HOST' not in snname:
-            snname, secondarysource = catalog.new_entry(
-                snname, srcname=reference, bibcode=nedbib, url=refurl,
-                secondary=True)
-            if bibcode:
-                source = catalog.entries[snname].add_source(bibcode=bibcode)
-                sources = uniq_cdl([source, secondarysource])
-            else:
-                sources = secondarysource
-            if name == snname:
-                if redshift:
-                    catalog.entries[snname].add_quantity(
-                        KILONOVA.REDSHIFT, redshift, sources)
-                if dist:
-                    catalog.entries[snname].add_quantity(
-                        KILONOVA.COMOVING_DIST, dist, sources)
-                    if not redshift:
-                        try:
-                            zatval = z_at_value(cosmo.comoving_distance,
-                                                float(dist) * un.Mpc, zmax=5.0)
-                            sigd = get_sig_digits(str(dist))
-                            redshift = pretty_num(zatval, sig=sigd)
-                        except (KeyboardInterrupt, SystemExit):
-                            raise
-                        except Exception:
-                            pass
-                        else:
-                            cosmosource = catalog.entries[name].add_source(
-                                bibcode='2016A&A...594A..13P')
-                            combsources = uniq_cdl(sources.split(',') +
-                                                   [cosmosource])
-                            catalog.entries[snname].add_quantity(
-                                KILONOVA.REDSHIFT, redshift, combsources,
-                                derived=True)
-            if cleanhost:
-                catalog.entries[snname].add_quantity(
-                    KILONOVA.HOST, cleanhost, sources)
-            if catalog.args.update and olddistname != distname:
-                catalog.journal_entries()
+        # if snname and 'HOST' not in snname:
+        #     snname, secondarysource = catalog.new_entry(
+        #         snname, srcname=reference, bibcode=nedbib, url=refurl,
+        #         secondary=True)
+        #     if bibcode:
+        #         source = catalog.entries[snname].add_source(bibcode=bibcode)
+        #         sources = uniq_cdl([source, secondarysource])
+        #     else:
+        #         sources = secondarysource
+        #     if name == snname:
+        #         if redshift:
+        #             catalog.entries[snname].add_quantity(
+        #                 KILONOVA.REDSHIFT, redshift, sources)
+        #         if dist:
+        #             catalog.entries[snname].add_quantity(
+        #                 KILONOVA.COMOVING_DIST, dist, sources)
+        #             if not redshift:
+        #                 try:
+        #                     zatval = z_at_value(cosmo.comoving_distance,
+        #                                         float(dist) * un.Mpc, zmax=5.0)
+        #                     sigd = get_sig_digits(str(dist))
+        #                     redshift = pretty_num(zatval, sig=sigd)
+        #                 except (KeyboardInterrupt, SystemExit):
+        #                     raise
+        #                 except Exception:
+        #                     pass
+        #                 else:
+        #                     cosmosource = catalog.entries[name].add_source(
+        #                         bibcode='2016A&A...594A..13P')
+        #                     combsources = uniq_cdl(sources.split(',') +
+        #                                            [cosmosource])
+        #                     catalog.entries[snname].add_quantity(
+        #                         KILONOVA.REDSHIFT, redshift, combsources,
+        #                         derived=True)
+        #     if cleanhost:
+        #         catalog.entries[snname].add_quantity(
+        #             KILONOVA.HOST, cleanhost, sources)
+        #     if catalog.args.update and olddistname != distname:
+        #         catalog.journal_entries()
         olddistname = distname
 
         loopcnt = loopcnt + 1
