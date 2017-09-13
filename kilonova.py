@@ -34,6 +34,8 @@ class KILONOVA(ENTRY):
     MAX_VISUAL_DATE = Key('maxvisualdate',
                           KEY_TYPES.STRING,
                           replace_better=True)
+    PRIMARY_MASS = Key('primarymass', KEY_TYPES.NUMERIC)
+    SECONDARY_MASS = Key('secondarymass', KEY_TYPES.NUMERIC)
     ERRORS = Key('errors')
 
 
