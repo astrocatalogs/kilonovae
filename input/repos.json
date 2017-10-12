@@ -6,13 +6,15 @@
         "kne-boneyard"
     ],
     "external":[
-        "kne-external"
+        "kne-external",
+        "kne-external-fits-spectra-private"
     ],
     "private":[
         "kne-internal-private",
         "kne-external-fits-spectra-private"
     ],
     "internal":[
-        "kne-internal"
+        "kne-internal",
+        "kne-internal-private"
     ]
 }
