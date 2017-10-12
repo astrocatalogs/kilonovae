@@ -10,7 +10,7 @@
 !/catalog.json
 *.sw*
 *-needsbib.txt
-kne-internal
+kne-internal*
 kne-external*
 kne-2000-2029
 kne-boneyard

@@ -218,9 +218,23 @@ def do_internal(catalog):
     catalog.log.debug("found {} files matching '{}'".format(
         len(files), path_pattern))
     for datafile in pbar_strings(files, task_str):
-        new_event = Kilonova.init_from_file(
-            catalog, path=datafile, clean=True)
-        catalog.entries.update({new_event[KILONOVA.NAME]: new_event})
+        new_entry = Kilonova.init_from_file(
+            catalog, path=datafile, clean=True, merge=True)
+
+        name = new_entry[KILONOVA.NAME]
+
+        old_entry = None
+        if name in catalog.entries:
+            if catalog.entries[name]._stub:
+                old_entry = Kilonova.init_from_file(catalog, name=name)
+            else:
+                old_entry = catalog.entries[name]
+
+        if old_entry:
+            catalog.copy_entry_to_entry(new_entry, old_entry)
+            catalog.entries[name] = old_entry
+        else:
+            catalog.entries[name] = new_entry
 
     return
 
@@ -233,8 +247,22 @@ def do_internal_private(catalog):
     catalog.log.debug("found {} files matching '{}'".format(
         len(files), path_pattern))
     for datafile in pbar_strings(files, task_str):
-        new_event = Kilonova.init_from_file(
-            catalog, path=datafile, clean=True)
-        catalog.entries.update({new_event[KILONOVA.NAME]: new_event})
+        new_entry = Kilonova.init_from_file(
+            catalog, path=datafile, clean=True, merge=True)
+
+        name = new_entry[KILONOVA.NAME]
+
+        old_entry = None
+        if name in catalog.entries:
+            if catalog.entries[name]._stub:
+                old_entry = Kilonova.init_from_file(catalog, name=name)
+            else:
+                old_entry = catalog.entries[name]
+
+        if old_entry:
+            catalog.copy_entry_to_entry(new_entry, old_entry)
+            catalog.entries[name] = old_entry
+        else:
+            catalog.entries[name] = new_entry
 
     return
