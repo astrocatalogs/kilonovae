@@ -150,11 +150,14 @@ def do_external_fits_spectra(catalog):
             elif 'MJD' in hdrkeys:
                 mjd = str(hdulist[0].header['MJD'])
             elif 'DATE-OBS' in hdrkeys:
+                dateobs = None
                 if 'T' in hdulist[0].header['DATE-OBS']:
                     dateobs = hdulist[0].header['DATE-OBS'].strip()
                 elif 'UTC-OBS' in hdrkeys:
                     dateobs = hdulist[0].header['DATE-OBS'].strip(
                     ) + 'T' + hdulist[0].header['UTC-OBS'].strip()
+                if not dateobs:
+                    dateobs = hdulist[0].header['DATE-OBS'].strip()
                 mjd = str(astrotime(dateobs, format='isot').mjd)
             else:
                 raise ValueError("Couldn't find JD/MJD for spectrum.")
