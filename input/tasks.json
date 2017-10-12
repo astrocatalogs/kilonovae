@@ -8,12 +8,12 @@
         "repo": "input/kne-internal",
         "priority": 1
     },
-    "internal-private": {
+    "internal_private": {
         "nice_name": "%pre metadata and photometry",
         "active": true,
         "update": false,
         "module": "kilonovae.tasks.general_data",
-        "function": "do_internal_private",
+        "function": "do_internal",
         "repo": "input/kne-internal-private",
         "priority": 1
     },
@@ -302,6 +302,17 @@
         "repo": "input/kne-external-fits-spectra",
         "always_journal": true,
         "priority": 209
+    },
+    "fits_spectra_private": {
+        "nice_name": "%pre Private FITS spectra",
+        "active": true,
+        "update": false,
+        "module": "kilonovae.tasks.general_data",
+        "function": "do_external_fits_spectra",
+        "groups": ["spectra"],
+        "repo": "input/kne-external-fits-spectra-private",
+        "always_journal": true,
+        "priority": 210
     },
     "tns_spectra": {
         "nice_name": "%pre TNS spectra",

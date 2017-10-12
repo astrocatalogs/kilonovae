@@ -132,6 +132,9 @@ def do_external_fits_spectra(catalog):
         elif 'donator' in metadict[filename]:
             name, source = catalog.new_entry(
                 name, srcname=metadict[filename]['donator'])
+        elif 'srcname' in metadict[filename]:
+            name, source = catalog.new_entry(
+                name, srcname=metadict[filename]['srcname'])
         else:
             if 'OBSERVER' in hdrkeys:
                 name, source = catalog.new_entry(
@@ -212,35 +215,6 @@ def do_external_fits_spectra(catalog):
 
 def do_internal(catalog):
     """Load events from files in the 'internal' repository, and save them."""
-    task_str = catalog.get_current_task_str()
-    path_pattern = os.path.join(catalog.get_current_task_repo(), '*.json')
-    files = glob(path_pattern)
-    catalog.log.debug("found {} files matching '{}'".format(
-        len(files), path_pattern))
-    for datafile in pbar_strings(files, task_str):
-        new_entry = Kilonova.init_from_file(
-            catalog, path=datafile, clean=True, merge=True)
-
-        name = new_entry[KILONOVA.NAME]
-
-        old_entry = None
-        if name in catalog.entries:
-            if catalog.entries[name]._stub:
-                old_entry = Kilonova.init_from_file(catalog, name=name)
-            else:
-                old_entry = catalog.entries[name]
-
-        if old_entry:
-            catalog.copy_entry_to_entry(new_entry, old_entry)
-            catalog.entries[name] = old_entry
-        else:
-            catalog.entries[name] = new_entry
-
-    return
-
-
-def do_internal_private(catalog):
-    """Load events from files in 'internal-private' repository."""
     task_str = catalog.get_current_task_str()
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.json')
     files = glob(path_pattern)
