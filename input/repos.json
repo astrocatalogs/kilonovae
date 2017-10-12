@@ -9,6 +9,8 @@
         "kne-external"
     ],
     "private":[
+        "kne-internal-private",
+        "kne-external-fits-spectra-private"
     ],
     "internal":[
         "kne-internal"
