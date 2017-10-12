@@ -223,3 +223,18 @@ def do_internal(catalog):
         catalog.entries.update({new_event[KILONOVA.NAME]: new_event})
 
     return
+
+
+def do_internal_private(catalog):
+    """Load events from files in 'internal-private' repository."""
+    task_str = catalog.get_current_task_str()
+    path_pattern = os.path.join(catalog.get_current_task_repo(), '*.json')
+    files = glob(path_pattern)
+    catalog.log.debug("found {} files matching '{}'".format(
+        len(files), path_pattern))
+    for datafile in pbar_strings(files, task_str):
+        new_event = Kilonova.init_from_file(
+            catalog, path=datafile, clean=True)
+        catalog.entries.update({new_event[KILONOVA.NAME]: new_event})
+
+    return

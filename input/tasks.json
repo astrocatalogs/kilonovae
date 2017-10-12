@@ -8,6 +8,15 @@
         "repo": "input/kne-internal",
         "priority": 1
     },
+    "internal-private": {
+        "nice_name": "%pre metadata and photometry",
+        "active": true,
+        "update": false,
+        "module": "kilonovae.tasks.general_data",
+        "function": "do_internal_private",
+        "repo": "input/kne-internal-private",
+        "priority": 1
+    },
     "radio": {
         "nice_name": "%pre radio data",
         "active": false,
