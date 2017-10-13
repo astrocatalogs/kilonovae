@@ -51,7 +51,6 @@ def do_donated_spectra(catalog):
         time = astrotime(year + '-' + month + '-' + day_fmt).mjd
         time = time + float(day) - floor(float(day))
         time = round_sig(time, sig=sig)
-        print(time)
 
         with open(os.path.join(fpath, fname), 'r') as f:
             specdata = list(
