@@ -230,11 +230,12 @@ def do_internal(catalog):
         name = new_entry[KILONOVA.NAME]
 
         old_entry = None
-        if name in catalog.entries:
-            if catalog.entries[name]._stub:
-                old_entry = Kilonova.init_from_file(catalog, name=name)
+        if catalog.entry_exists(name):
+            pname = catalog.get_preferred_name(name)
+            if catalog.entries[pname]._stub:
+                old_entry = Kilonova.init_from_file(catalog, name=pname)
             else:
-                old_entry = catalog.entries[name]
+                old_entry = catalog.entries[pname]
 
         if old_entry:
             catalog.copy_entry_to_entry(new_entry, old_entry)
