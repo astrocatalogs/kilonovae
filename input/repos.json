@@ -7,10 +7,12 @@
     ],
     "external":[
         "kne-external",
+        "kne-external-spectra-private",
         "kne-external-fits-spectra-private"
     ],
     "private":[
         "kne-internal-private",
+        "kne-external-spectra-private",
         "kne-external-fits-spectra-private"
     ],
     "internal":[
