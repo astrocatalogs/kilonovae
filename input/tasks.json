@@ -294,7 +294,7 @@
     },
     "donated_spectra_private": {
         "nice_name": "%pre Private donated spectra",
-        "active": false,
+        "active": true,
         "update": false,
         "module": "kilonovae.tasks.donations",
         "function": "do_donated_spectra",
