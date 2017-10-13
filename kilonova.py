@@ -52,7 +52,7 @@ class Kilonova(Entry):
 
     _KEYS = KILONOVA
 
-    def __init__(self, catalog, name, stub=False):
+    def __init__(self, catalog=None, name=None, stub=False):
         """Initialize `Kilonova`."""
         super(Kilonova, self).__init__(catalog, name, stub=stub)
         return

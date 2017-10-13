@@ -3,6 +3,7 @@
 import json
 import os
 from collections import OrderedDict
+from copy import deepcopy
 from decimal import Decimal
 from glob import glob
 
@@ -228,24 +229,24 @@ def do_internal(catalog):
             catalog, path=datafile, clean=True, merge=True)
 
         name = new_entry[KILONOVA.NAME]
-        old_entry = None
+        old_name = None
 
         for alias in new_entry.get_aliases():
             if catalog.entry_exists(alias):
                 old_name = catalog.get_preferred_name(alias)
                 if catalog.entries[old_name]._stub:
-                    old_entry = Kilonova.init_from_file(catalog, name=old_name)
-                else:
-                    old_entry = catalog.entries[old_name]
+                    old_entry = Kilonova.init_from_file(
+                        catalog, name=old_name, compare_to_existing=False,
+                        merge=False)
                 break
 
-        if old_entry:
-            catalog.copy_entry_to_entry(new_entry, catalog.entries[old_name])
-            new_name = catalog.get_preferred_name(old_name)
-            if new_name != old_name:
-                catalog._delete_entry_file(old_name)
-                del(catalog[old_name])
+        if old_name:
+            old_entry = deepcopy(catalog.entries[old_name])
+            catalog.copy_entry_to_entry(new_entry, old_entry)
+            catalog.entries[old_name] = old_entry
         else:
             catalog.entries[name] = new_entry
+
+        catalog.journal_entries()
 
     return
