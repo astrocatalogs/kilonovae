@@ -875,17 +875,15 @@ class Kilonova(Entry):
         # if there are no other options to choose from, skip
         if len(aliases) <= 1:
             return name
-        # If the name is already in the form 'SN####AA' then keep using
+        # If the name is already in the form 'GW####AA' then keep using
         # that
-        if (name.startswith('SN') and
-            ((is_number(name[2:6]) and not is_number(name[6:])) or
-             (is_number(name[2:5]) and not is_number(name[5:])))):
+        if (name.startswith('GW') and (
+                is_number(name[2:8]) and not is_number(name[8:]))):
             return name
-        # If one of the aliases is in the form 'SN####AA' then use that
+        # If one of the aliases is in the form 'GW####AA' then use that
         for alias in aliases:
-            if (alias.startswith('SN') and
-                ((is_number(alias[2:6]) and not is_number(alias[6:])) or
-                 (is_number(alias[2:5]) and not is_number(alias[5:])))):
+            if (alias.startswith('GW') and (
+                    is_number(alias[2:8]) and not is_number(alias[8:]))):
                 newname = alias
                 break
         # Otherwise, name based on the 'discoverer' survey

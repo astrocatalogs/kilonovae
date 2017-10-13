@@ -240,11 +240,12 @@ def do_internal(catalog):
                 break
 
         if old_entry:
-            catalog.copy_entry_to_entry(new_entry, old_entry)
-            catalog.entries[old_name] = old_entry
+            catalog.copy_entry_to_entry(new_entry, catalog.entries[old_name])
+            new_name = catalog.get_preferred_name(old_name)
+            if new_name != old_name:
+                catalog._delete_entry_file(old_name)
+                del(catalog[old_name])
         else:
             catalog.entries[name] = new_entry
-
-    catalog.journal_entries()
 
     return
