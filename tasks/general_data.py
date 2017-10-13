@@ -245,4 +245,6 @@ def do_internal(catalog):
         else:
             catalog.entries[name] = new_entry
 
+    catalog.journal_entries()
+
     return
