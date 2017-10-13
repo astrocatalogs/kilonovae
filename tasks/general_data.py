@@ -228,14 +228,16 @@ def do_internal(catalog):
             catalog, path=datafile, clean=True, merge=True)
 
         name = new_entry[KILONOVA.NAME]
-
         old_entry = None
-        if catalog.entry_exists(name):
-            name = catalog.get_preferred_name(name)
-            if catalog.entries[name]._stub:
-                old_entry = Kilonova.init_from_file(catalog, name=name)
-            else:
-                old_entry = catalog.entries[name]
+
+        for alias in new_entry.get_aliases():
+            if catalog.entry_exists(alias):
+                name = catalog.get_preferred_name(alias)
+                if catalog.entries[name]._stub:
+                    old_entry = Kilonova.init_from_file(catalog, name=name)
+                else:
+                    old_entry = catalog.entries[name]
+                break
 
         if old_entry:
             catalog.copy_entry_to_entry(new_entry, old_entry)
