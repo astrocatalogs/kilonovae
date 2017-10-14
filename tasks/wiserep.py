@@ -16,13 +16,19 @@ from ..kilonova import KILONOVA
 
 
 def do_wiserep_spectra(catalog):
+    """Import spectra from WISeREP."""
     if not catalog.args.travis:
         from ..input.WISeWEBSpider.wisewebspider import spider
-        try:
-            spider(update=True, daysago=7, path="/../../kne-external-WISEREP/")
-        except:
-            catalog.log.warning(
-                'Spider errored, continuing without letting it complete.')
+        all_aliases = [y for z in [catalog.entries[x].get_aliases()
+                       for x in catalog.entries] for y in z]
+        for name in pbar_strings(all_aliases, 'Scraping WISeREP'):
+            try:
+                spider(
+                    update=True, daysago=False,
+                    path="/../../kne-external-WISEREP/", name=name)
+            except Exception:
+                catalog.log.warning(
+                    'Spider errored, continuing without letting it complete.')
 
     task_str = catalog.get_current_task_str()
     secondaryreference = 'WISeREP'

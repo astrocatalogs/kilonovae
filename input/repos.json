@@ -8,7 +8,8 @@
     "external":[
         "kne-external",
         "kne-external-spectra-private",
-        "kne-external-fits-spectra-private"
+        "kne-external-fits-spectra-private",
+        "kne-external-WISEREP"
     ],
     "private":[
         "kne-internal-private",

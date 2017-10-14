@@ -338,14 +338,14 @@
     },
     "wiserep_spectra": {
         "nice_name": "%pre WISeREP spectra",
-        "active": false,
+        "active": true,
         "update": false,
         "module": "kilonovae.tasks.wiserep",
         "function": "do_wiserep_spectra",
         "groups": ["spectra"],
         "repo": "input/kne-external-WISEREP",
         "always_journal": true,
-        "priority": 300
+        "priority": -500
     },
     "mast_spectra": {
         "nice_name": "%pre MAST spectra",
