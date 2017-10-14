@@ -73,10 +73,15 @@ def do_tns(catalog):
                     tns_file.write(csvtxt)
 
         tsvin = list(csv.reader(csvtxt.splitlines(), delimiter=','))
+        all_aliases = [y for z in [catalog.entries[x].get_aliases()
+                       for x in catalog.entries] for y in z]
         for ri, row in enumerate(pbar(tsvin, task_str, leave=False)):
             if ri == 0:
                 continue
-            if row[4] and 'SN' not in row[4]:
+            if (not row[4] or (row[4] and 'GW' not in row[4] and
+                row[4] not in all_aliases)) and (
+                not row[10] or (row[10] and 'GW' not in row[10] and
+                                row[10] not in all_aliases)):
                 continue
             name = row[1].replace(' ', '')
             name = catalog.add_entry(name)
@@ -91,7 +96,7 @@ def do_tns(catalog):
                                                    source)
             if row[4]:
                 catalog.entries[name].add_quantity(
-                    KILONOVA.CLAIMED_TYPE, row[4].replace('SN', '').strip(),
+                    KILONOVA.CLAIMED_TYPE, row[4].strip(),
                     source)
             if row[5]:
                 catalog.entries[name].add_quantity(
@@ -163,7 +168,7 @@ def do_tns_photo(catalog):
         aliases = catalog.entries[name].get_aliases()
         oname = ''
         for alias in aliases:
-            if (alias.startswith(('SN', 'AT')) and is_integer(alias[2:6]) and
+            if (alias.startswith('AT') and is_integer(alias[2:6]) and
                     int(alias[2:6]) >= 2016) and alias[6:].isalpha():
                 oname = alias
                 break
@@ -295,7 +300,7 @@ def do_tns_spectra(catalog):
         aliases = catalog.entries[name].get_aliases()
         oname = ''
         for alias in aliases:
-            if (alias.startswith(('SN', 'AT')) and is_integer(alias[2:6]) and
+            if (alias.startswith('AT') and is_integer(alias[2:6]) and
                     int(alias[2:6]) >= 2016) and alias[6:].isalpha():
                 oname = alias
                 break

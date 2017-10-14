@@ -83,16 +83,6 @@
         "repo": "input/kne-external",
         "priority": 12
     },
-    "tns": {
-        "nice_name": "%pre TNS metadata",
-        "active": false,
-        "update": true,
-        "archived": false,
-        "module": "kilonovae.tasks.tns",
-        "function": "do_tns",
-        "repo": "input/kne-external",
-        "priority": 17
-    },
     "fermi": {
         "nice_name": "%pre Fermi",
         "active": false,
@@ -270,9 +260,19 @@
         "always_journal": true,
         "priority": 40
     },
+    "tns": {
+        "nice_name": "%pre TNS metadata",
+        "active": true,
+        "update": true,
+        "archived": false,
+        "module": "kilonovae.tasks.tns",
+        "function": "do_tns",
+        "repo": "input/kne-external",
+        "priority": 40
+    },
     "tns_photo": {
         "nice_name": "%pre TNS photometry",
-        "active": false,
+        "active": true,
         "update": false,
         "archived": false,
         "module": "kilonovae.tasks.tns",
@@ -327,7 +327,7 @@
     },
     "tns_spectra": {
         "nice_name": "%pre TNS spectra",
-        "active": false,
+        "active": true,
         "update": true,
         "module": "kilonovae.tasks.tns",
         "function": "do_tns_spectra",
