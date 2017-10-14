@@ -235,9 +235,7 @@ def do_internal(catalog):
             if catalog.entry_exists(alias):
                 old_name = catalog.get_preferred_name(alias)
                 if catalog.entries[old_name]._stub:
-                    old_entry = Kilonova.init_from_file(
-                        catalog, name=old_name, compare_to_existing=False,
-                        merge=False)
+                    catalog.add_entry(old_name)
                 break
 
         if old_name:
