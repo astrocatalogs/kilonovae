@@ -15,7 +15,8 @@
         "kne-external-radio",
         "kne-external-radio-private",
         "kne-external-xray",
-        "kne-external-xray-private"
+        "kne-external-xray-private",
+        "kne-external-models"
     ],
     "private":[
         "kne-internal-private",

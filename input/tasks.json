@@ -420,7 +420,7 @@
     },
     "mosfit": {
         "nice_name": "Model fits from MOSFiT",
-        "active": false,
+        "active": true,
         "update": false,
         "module": "kilonovae.tasks.mosfit",
         "function": "do_mosfit",

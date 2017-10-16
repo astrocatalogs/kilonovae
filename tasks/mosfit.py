@@ -37,6 +37,10 @@ def do_mosfit(catalog):
         if fname in efiles:
             efiles.remove(fname)
         fpath = os.path.join(fdir, fname)
+
+        if 'GW' not in fpath:
+            continue
+
         if not os.path.isfile(fpath):
             md, res = dbx.files_download('/' + fname)
             jtxt = res.content
