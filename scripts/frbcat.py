@@ -20,9 +20,9 @@ from ...catalog.utils import get_entry_filename, is_number
 
 dupes = []
 
-outdir = "astrocats/supernovae/output/"
+outdir = "astrocats/kilonovae/output/"
 
-utmost = "astrocats/supernovae/scripts/UTMOST-FRBs.dat"
+utmost = "astrocats/kilonovae/scripts/UTMOST-FRBs.dat"
 
 files = repo_file_list(bones=False)
 

@@ -12,7 +12,7 @@ errata = []
 
 files = repo_file_list(bones=False)
 
-outdir = 'astrocats/supernovae/output/'
+outdir = 'astrocats/kilonovae/output/'
 
 for fcnt, eventfile in enumerate(tqdm(sorted(files, key=lambda s: s.lower()))):
     # if fcnt > 100:

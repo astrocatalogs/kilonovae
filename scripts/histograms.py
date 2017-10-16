@@ -10,16 +10,16 @@ from bokeh.resources import CDN
 
 from astrocats.catalog.utils import is_number, tq
 
-outdir = "astrocats/supernovae/output/"
+outdir = "astrocats/kilonovae/output/"
 
 mincnt = 5
 
 with open(outdir + 'catalog.min.json', 'r') as f:
     filetext = f.read()
     meta = json.loads(filetext, object_pairs_hook=OrderedDict)
-with open('astrocats/supernovae/input/type-synonyms.json', 'r') as f:
+with open('astrocats/kilonovae/input/type-synonyms.json', 'r') as f:
     typereps = json.loads(f.read(), object_pairs_hook=OrderedDict)
-with open('astrocats/supernovae/input/non-kne-types.json', 'r') as f:
+with open('astrocats/kilonovae/input/non-kne-types.json', 'r') as f:
     nonknetypes = json.loads(f.read(), object_pairs_hook=OrderedDict)
     nonknetypes = [x.upper() for x in nonknetypes]
 

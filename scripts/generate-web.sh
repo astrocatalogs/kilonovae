@@ -25,11 +25,11 @@ python -m astrocats.kilonovae.scripts.histograms &
 pids[8]=$!
 python -m astrocats.scripts.atelscbetsiaucs -c kne &
 pids[9]=$!
-python -m astrocats.kilonovae.scripts.frbcat &
-pids[10]=$!
+#python -m astrocats.kilonovae.scripts.frbcat &
+#pids[10]=$!
 for pid in ${pids[*]}; do
 	wait $pid
 done
-cd /var/www/html/kne/astrocats/astrocats/supernovae/output/html
+cd /var/www/html/kne/astrocats/astrocats/kilonovae/output/html
 bash thumbs.sh
 cd /var/www/html/kne/astrocats
