@@ -400,7 +400,7 @@
     },
     "mosfit_private": {
         "nice_name": "Private model fits from MOSFiT",
-        "active": true,
+        "active": false,
         "update": false,
         "module": "kilonovae.tasks.mosfit",
         "function": "do_mosfit",
