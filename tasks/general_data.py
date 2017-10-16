@@ -84,7 +84,6 @@ def do_external_xray(catalog):
                     else:
                         source = catalog.entries[
                             name].add_source(name=src)
-                    print(src, source)
                 elif li in [2, 3, 4]:
                     continue
                 else:
