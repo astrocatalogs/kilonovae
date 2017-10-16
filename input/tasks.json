@@ -28,7 +28,7 @@
     },
     "radio_private": {
         "nice_name": "%pre radio data",
-        "active": false,
+        "active": true,
         "update": false,
         "module": "kilonovae.tasks.general_data",
         "function": "do_external_radio",
