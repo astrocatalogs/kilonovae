@@ -2,10 +2,11 @@
 import csv
 import json
 import os
+from decimal import Decimal
 from math import floor
 
 from astrocats.catalog.spectrum import SPECTRUM
-from astrocats.catalog.utils import get_sig_digits, pbar, round_sig
+from astrocats.catalog.utils import get_sig_digits, jd_to_mjd, pbar, round_sig
 from astropy.time import Time as astrotime
 
 
@@ -44,13 +45,19 @@ def do_donated_spectra(catalog):
             sec_srcn = metadict[fname]['srcname']
             name, source = catalog.new_entry(name, srcname=sec_srcn)
 
-        date = metadict[fname].get('date', '')
-        year, month, day = date.split('/')
-        sig = get_sig_digits(day) + 5
-        day_fmt = str(floor(float(day))).zfill(2)
-        time = astrotime(year + '-' + month + '-' + day_fmt).mjd
-        time = time + float(day) - floor(float(day))
-        time = round_sig(time, sig=sig)
+        if 'date' in metadict[fname]:
+            date = metadict[fname].get('date', '')
+            year, month, day = date.split('/')
+            sig = get_sig_digits(day) + 5
+            day_fmt = str(floor(float(day))).zfill(2)
+            time = astrotime(year + '-' + month + '-' + day_fmt).mjd
+            time = time + float(day) - floor(float(day))
+            time = round_sig(time, sig=sig)
+        elif 'time' in metadict[fname]:
+            if metadict[fname].get('u_time', 'MJD') == 'JD':
+                time = str(jd_to_mjd(Decimal(metadict[fname]['time'])))
+            else:
+                time = metadict[fname]['time']
 
         with open(os.path.join(fpath, fname), 'r') as f:
             specdata = list(
