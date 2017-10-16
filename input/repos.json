@@ -9,9 +9,12 @@
         "kne-external",
         "kne-external-spectra",
         "kne-external-spectra-private",
+        "kne-external-fits-spectra",
         "kne-external-fits-spectra-private",
         "kne-external-WISEREP",
+        "kne-external-radio",
         "kne-external-radio-private",
+        "kne-external-xray",
         "kne-external-xray-private"
     ],
     "private":[
