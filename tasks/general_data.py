@@ -46,12 +46,17 @@ def do_external_radio(catalog):
                         PHOTOMETRY.FREQUENCY: cols[1],
                         PHOTOMETRY.U_FREQUENCY: 'GHz',
                         PHOTOMETRY.FLUX_DENSITY: cols[2],
-                        PHOTOMETRY.E_FLUX_DENSITY: cols[3],
                         PHOTOMETRY.U_FLUX_DENSITY: 'µJy',
                         PHOTOMETRY.U_TIME: 'MJD',
                         PHOTOMETRY.INSTRUMENT: cols[4],
                         PHOTOMETRY.SOURCE: source
                     }
+                    if float(cols[3]) == 0.0:
+                        photodict[PHOTOMETRY.UPPER_LIMIT] = True
+                        photodict[PHOTOMETRY.UPPER_LIMIT_SIGMA] = '3.0'
+                    else:
+                        photodict[PHOTOMETRY.E_FLUX_DENSITY] = cols[3]
+
                     if float(cols[2]) == 0.0:
                         photodict[PHOTOMETRY.FLUX_DENSITY] = str(Decimal(
                             '3') * Decimal(cols[3]))
