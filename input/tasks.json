@@ -26,6 +26,15 @@
         "repo": "input/kne-external-radio",
         "priority": 2
     },
+    "radio_private": {
+        "nice_name": "%pre radio data",
+        "active": false,
+        "update": false,
+        "module": "kilonovae.tasks.general_data",
+        "function": "do_external_radio",
+        "repo": "input/kne-external-radio-private",
+        "priority": 2
+    },
     "xray": {
         "nice_name": "%pre X-ray data",
         "active": false,

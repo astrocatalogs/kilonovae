@@ -21,47 +21,43 @@ def do_external_radio(catalog):
     task_str = catalog.get_current_task_str()
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.txt')
     for datafile in pbar_strings(glob(path_pattern), task_str):
-        oldname = os.path.basename(datafile).split('.')[0]
-        name = catalog.add_entry(oldname)
         radiosourcedict = OrderedDict()
         with open(datafile, 'r') as ff:
             for li, line in enumerate(
                     [xx.strip() for xx in ff.read().splitlines()]):
-                if line.startswith('(') and li <= len(radiosourcedict):
+                if li == 0:
+                    name = catalog.add_entry(line)
+                elif li == 1:
                     key = line.split()[0]
-                    src = line.split()[-1]
+                    src = ' '.join(line.split()[1:])
                     if len(src) == 19 and ' ' not in src:
                         radiosourcedict[key] = catalog.entries[
                             name].add_source(bibcode=src)
                     else:
                         radiosourcedict[key] = catalog.entries[
-                            name].add_source(srcname=src)
-                elif li in [xx + len(radiosourcedict) for xx in range(3)]:
+                            name].add_source(name=src)
+                elif li in [2, 3, 4]:
                     continue
                 else:
                     cols = list(filter(None, line.split()))
-                    source = radiosourcedict[cols[6]]
-                    if float(cols[4]) == 0.0:
-                        eflux = ''
-                        upp = True
-                    else:
-                        eflux = cols[4]
-                        upp = False
+                    source = radiosourcedict[cols[5]]
                     photodict = {
                         PHOTOMETRY.TIME: cols[0],
-                        PHOTOMETRY.FREQUENCY: cols[2],
+                        PHOTOMETRY.FREQUENCY: cols[1],
                         PHOTOMETRY.U_FREQUENCY: 'GHz',
-                        PHOTOMETRY.FLUX_DENSITY: cols[3],
-                        PHOTOMETRY.E_FLUX_DENSITY: eflux,
+                        PHOTOMETRY.FLUX_DENSITY: cols[2],
+                        PHOTOMETRY.E_FLUX_DENSITY: cols[3],
                         PHOTOMETRY.U_FLUX_DENSITY: 'µJy',
-                        PHOTOMETRY.UPPER_LIMIT: upp,
                         PHOTOMETRY.U_TIME: 'MJD',
-                        PHOTOMETRY.INSTRUMENT: cols[5],
+                        PHOTOMETRY.INSTRUMENT: cols[4],
                         PHOTOMETRY.SOURCE: source
                     }
+                    if float(cols[2]) == 0.0:
+                        photodict[PHOTOMETRY.FLUX_DENSITY] = str(Decimal(
+                            '3') * Decimal(cols[3]))
+                        photodict[PHOTOMETRY.UPPER_LIMIT] = True
+                        photodict[PHOTOMETRY.UPPER_LIMIT_SIGMA] = '3.0'
                     catalog.entries[name].add_photometry(**photodict)
-                    catalog.entries[name].add_quantity(KILONOVA.ALIAS,
-                                                       oldname, source)
 
     catalog.journal_entries()
     return
