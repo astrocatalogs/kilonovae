@@ -22,6 +22,7 @@ from .utils import frame_priority, host_clean, radec_clean
 
 class KILONOVA(ENTRY):
     """Kilonova `Key` child class."""
+
     CLAIMED_TYPE = Key('claimedtype',
                        KEY_TYPES.STRING,
                        kind_preference=['spectroscopic', 'photometric'],

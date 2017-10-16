@@ -45,9 +45,16 @@ def do_mosfit(catalog):
 
         new_entry = Kilonova.init_from_file(
             catalog, path=fpath, compare_to_existing=False, try_gzip=True,
-            clean=False, merge=False)
+            clean=False, merge=False, filter_on={
+                'realization': [str(x) for x in range(1, REALIZATION_LIMIT)]})
 
         name = new_entry[KILONOVA.NAME]
+
+        aliases = new_entry.get_aliases()
+
+        if not any([x.startswith('GW') for x in aliases]):
+            os.remove(fpath)
+            continue
 
         # Only take a number of realizations up to the realization limit.
         new_photo = []

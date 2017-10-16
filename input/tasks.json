@@ -35,6 +35,15 @@
         "repo": "input/kne-external-xray",
         "priority": 2
     },
+    "xray_private": {
+        "nice_name": "%pre X-ray data",
+        "active": true,
+        "update": false,
+        "module": "kilonovae.tasks.general_data",
+        "function": "do_external_xray",
+        "repo": "input/kne-external-xray-private",
+        "priority": 2
+    },
     "simbad": {
         "nice_name": "%pre SIMBAD",
         "active": false,
@@ -388,6 +397,17 @@
         "function": "do_cleanup",
         "groups": ["meta"],
         "priority": -10
+    },
+    "mosfit_private": {
+        "nice_name": "Private model fits from MOSFiT",
+        "active": true,
+        "update": false,
+        "module": "kilonovae.tasks.mosfit",
+        "function": "do_mosfit",
+        "groups": ["models"],
+        "repo": "input/kne-external-models-private",
+        "always_journal": true,
+        "priority": -1
     },
     "mosfit": {
         "nice_name": "Model fits from MOSFiT",

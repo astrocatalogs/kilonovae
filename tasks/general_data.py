@@ -17,6 +17,7 @@ from ..kilonova import KILONOVA, Kilonova
 
 
 def do_external_radio(catalog):
+    """Import radio data."""
     task_str = catalog.get_current_task_str()
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.txt')
     for datafile in pbar_strings(glob(path_pattern), task_str):
@@ -28,9 +29,13 @@ def do_external_radio(catalog):
                     [xx.strip() for xx in ff.read().splitlines()]):
                 if line.startswith('(') and li <= len(radiosourcedict):
                     key = line.split()[0]
-                    bibc = line.split()[-1]
-                    radiosourcedict[key] = catalog.entries[name].add_source(
-                        bibcode=bibc)
+                    src = line.split()[-1]
+                    if len(src) == 19 and ' ' not in src:
+                        radiosourcedict[key] = catalog.entries[
+                            name].add_source(bibcode=src)
+                    else:
+                        radiosourcedict[key] = catalog.entries[
+                            name].add_source(srcname=src)
                 elif li in [xx + len(radiosourcedict) for xx in range(3)]:
                     continue
                 else:
@@ -67,14 +72,20 @@ def do_external_xray(catalog):
     task_str = catalog.get_current_task_str()
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.txt')
     for datafile in pbar_strings(glob(path_pattern), task_str):
-        oldname = os.path.basename(datafile).split('.')[0]
-        name = catalog.add_entry(oldname)
         with open(datafile, 'r') as ff:
             for li, line in enumerate(ff.read().splitlines()):
                 if li == 0:
-                    source = catalog.entries[name].add_source(
-                        bibcode=line.split()[-1])
-                elif li in [1, 2, 3]:
+                    name = catalog.add_entry(line)
+                elif li == 1:
+                    src = ' '.join(line.split()[1:])
+                    if len(src) == 19 and ' ' not in src:
+                        source = catalog.entries[
+                            name].add_source(bibcode=src)
+                    else:
+                        source = catalog.entries[
+                            name].add_source(name=src)
+                    print(src, source)
+                elif li in [2, 3, 4]:
                     continue
                 else:
                     cols = list(filter(None, line.split()))
@@ -83,31 +94,29 @@ def do_external_xray(catalog):
                         PHOTOMETRY.U_TIME: 'MJD',
                         PHOTOMETRY.ENERGY: cols[2:4],
                         PHOTOMETRY.U_ENERGY: 'keV',
-                        PHOTOMETRY.COUNT_RATE: cols[4],
-                        PHOTOMETRY.FLUX: cols[6],
-                        PHOTOMETRY.UNABSORBED_FLUX: cols[8],
+                        PHOTOMETRY.FLUX: cols[4],
                         PHOTOMETRY.U_FLUX: 'ergs/s/cm^2',
-                        PHOTOMETRY.PHOTON_INDEX: cols[15],
-                        PHOTOMETRY.INSTRUMENT: cols[17],
-                        PHOTOMETRY.NHMW: cols[11],
-                        PHOTOMETRY.UPPER_LIMIT: (float(cols[5]) < 0),
+                        PHOTOMETRY.INSTRUMENT: cols[-2],
+                        PHOTOMETRY.UPPER_LIMIT: (float(cols[5]) <= 0),
                         PHOTOMETRY.SOURCE: source
                     }
+                    if not photodict[PHOTOMETRY.UPPER_LIMIT]:
+                        photodict[PHOTOMETRY.E_LOWER_FLUX] = cols[5]
+                        photodict[PHOTOMETRY.E_UPPER_FLUX] = cols[6]
                     catalog.entries[name].add_photometry(**photodict)
-                    catalog.entries[name].add_quantity(KILONOVA.ALIAS,
-                                                       oldname, source)
 
     catalog.journal_entries()
     return
 
 
 def do_external_fits_spectra(catalog):
+    """Import spectra in FITS format."""
     fpath = catalog.get_current_task_repo()
     with open(os.path.join(fpath, 'meta.json'), 'r') as f:
         metadict = json.loads(f.read())
 
     fureps = {'erg/cm2/s/A': 'erg/s/cm^2/Angstrom'}
-    task_str = catalog.get_current_task_str()
+    # task_str = catalog.get_current_task_str()
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.fits')
     files = glob(path_pattern)
     for datafile in files:
