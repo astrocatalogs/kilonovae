@@ -94,15 +94,16 @@ def do_external_xray(catalog):
                         PHOTOMETRY.U_TIME: 'MJD',
                         PHOTOMETRY.ENERGY: cols[2:4],
                         PHOTOMETRY.U_ENERGY: 'keV',
-                        PHOTOMETRY.FLUX: cols[4],
+                        PHOTOMETRY.UNABSORBED_FLUX: cols[4],
                         PHOTOMETRY.U_FLUX: 'ergs/s/cm^2',
                         PHOTOMETRY.INSTRUMENT: cols[-2],
                         PHOTOMETRY.UPPER_LIMIT: (float(cols[5]) <= 0),
+                        PHOTOMETRY.NHMW: cols[-3],
                         PHOTOMETRY.SOURCE: source
                     }
                     if not photodict[PHOTOMETRY.UPPER_LIMIT]:
-                        photodict[PHOTOMETRY.E_LOWER_FLUX] = cols[5]
-                        photodict[PHOTOMETRY.E_UPPER_FLUX] = cols[6]
+                        photodict[PHOTOMETRY.E_LOWER_UNABSORBED_FLUX] = cols[5]
+                        photodict[PHOTOMETRY.E_UPPER_UNABSORBED_FLUX] = cols[6]
                     catalog.entries[name].add_photometry(**photodict)
 
     catalog.journal_entries()
