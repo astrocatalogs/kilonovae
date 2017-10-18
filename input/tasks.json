@@ -398,15 +398,6 @@
         "always_journal": true,
         "priority": -200
     },
-    "cleanup": {
-        "nice_name": "Cleaning up entries",
-        "active": true,
-        "update": false,
-        "module": "kilonovae.tasks.cleanup",
-        "function": "do_cleanup",
-        "groups": ["meta"],
-        "priority": -10
-    },
     "mosfit_private": {
         "nice_name": "Private model fits from MOSFiT",
         "active": false,
@@ -416,7 +407,7 @@
         "groups": ["models"],
         "repo": "input/kne-external-models-private",
         "always_journal": true,
-        "priority": -1
+        "priority": -20
     },
     "mosfit": {
         "nice_name": "Model fits from MOSFiT",
@@ -427,6 +418,15 @@
         "groups": ["models"],
         "repo": "input/kne-external-models",
         "always_journal": true,
-        "priority": -1
+        "priority": -20
+    },
+    "cleanup": {
+        "nice_name": "Cleaning up entries",
+        "active": true,
+        "update": false,
+        "module": "kilonovae.tasks.cleanup",
+        "function": "do_cleanup",
+        "groups": ["meta"],
+        "priority": -10
     }
 }
