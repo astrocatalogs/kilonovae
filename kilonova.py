@@ -332,6 +332,7 @@ class Kilonova(Entry):
         return True
 
     def add_source(self, **kwargs):
+        """Add source to entry."""
         # Sanitize some fields before adding source
         # Replace reference names and URLs using dictionaries.
         if (kwargs.get(SOURCE.BIBCODE, []) and

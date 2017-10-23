@@ -9,7 +9,7 @@ from glob import glob
 
 from astrocats.catalog.photometry import PHOTOMETRY
 from astrocats.catalog.spectrum import SPECTRUM
-from astrocats.catalog.utils import jd_to_mjd, pbar_strings
+from astrocats.catalog.utils import is_integer, jd_to_mjd, pbar_strings
 from astropy.io import fits
 from astropy.time import Time as astrotime
 
@@ -74,20 +74,24 @@ def do_external_xray(catalog):
     path_pattern = os.path.join(catalog.get_current_task_repo(), '*.txt')
     for datafile in pbar_strings(glob(path_pattern), task_str):
         with open(datafile, 'r') as ff:
+            sc = 0
+            sources = []
             for li, line in enumerate(ff.read().splitlines()):
                 if li == 0:
                     name = catalog.add_entry(line)
-                elif li == 1:
+                elif line.startswith('(') and is_integer(line[1]):
+                    sc = sc + 1
                     src = ' '.join(line.split()[1:])
                     if len(src) == 19 and ' ' not in src:
-                        source = catalog.entries[
-                            name].add_source(bibcode=src)
+                        sources.append(catalog.entries[
+                            name].add_source(bibcode=src))
                     else:
-                        source = catalog.entries[
-                            name].add_source(name=src)
-                elif li in [2, 3, 4]:
+                        sources.append(catalog.entries[
+                            name].add_source(name=src))
+                elif li in [sc + x for x in [1, 2, 3]]:
                     continue
                 else:
+                    source = ','.join(sources)
                     cols = list(filter(None, line.split()))
                     photodict = {
                         PHOTOMETRY.TIME: cols[:2],

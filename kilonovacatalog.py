@@ -78,7 +78,8 @@ class KilonovaCatalog(Catalog):
         An entry would be buried if it does not belong to the class of object
         associated with the given catalog.
         """
-        (bury_entry, save_entry) = super(KilonovaCatalog, self).should_bury(name)
+        (bury_entry, save_entry) = super(
+            KilonovaCatalog, self).should_bury(name)
 
         ct_val = None
         if name.startswith(tuple(self.nonkneprefixes_dict)):
