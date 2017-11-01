@@ -23,6 +23,7 @@ def do_mosfit(catalog):
                             'astrocats directory.')
         mosfitkey = ''
 
+    # Get new data from Dropbox.
     dbx = dropbox.Dropbox(mosfitkey)
     files = list(sorted([
         x.name for x in dbx.files_list_folder('').entries
@@ -31,11 +32,8 @@ def do_mosfit(catalog):
     fdir = os.path.join(catalog.get_current_task_repo(), 'MOSFiT')
     if not os.path.isdir(fdir):
         os.mkdir(fdir)
-    efiles = [x.split('/')[-1] for x in glob(os.path.join(fdir, '*'))]
     old_name = ''
     for fname in pbar(files, desc=task_str):
-        if fname in efiles:
-            efiles.remove(fname)
         fpath = os.path.join(fdir, fname)
 
         if 'GW' not in fpath:
@@ -47,6 +45,10 @@ def do_mosfit(catalog):
             with open(fpath, 'wb') as f:
                 f.write(jtxt)
 
+    # Load data in models folder.
+    efiles = [x.split('/')[-1] for x in glob(os.path.join(fdir, '*'))]
+    for fname in efiles:
+        fpath = os.path.join(fdir, fname)
         new_entry = Kilonova.init_from_file(
             catalog, path=fpath, compare_to_existing=False, try_gzip=True,
             clean=False, merge=False, filter_on={
@@ -87,7 +89,5 @@ def do_mosfit(catalog):
         if old_name != name:
             catalog.journal_entries()
         old_name = name
-    for fname in efiles:
-        os.remove(os.path.join(fdir, fname))
 
     return
