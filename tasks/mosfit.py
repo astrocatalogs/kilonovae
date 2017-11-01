@@ -46,7 +46,8 @@ def do_mosfit(catalog):
                 f.write(jtxt)
 
     # Load data in models folder.
-    efiles = [x.split('/')[-1] for x in glob(os.path.join(fdir, '*'))]
+    efiles = [x.split('/')[-1] for x in glob(
+        os.path.join(fdir, '*')) if '.json' in x]
     for fname in efiles:
         fpath = os.path.join(fdir, fname)
         new_entry = Kilonova.init_from_file(
